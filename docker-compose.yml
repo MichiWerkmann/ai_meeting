@@ -1,0 +1,92 @@
+services:
+  reverse-proxy:
+    image: nginx:1.27-alpine
+    ports:
+      - "${REVERSE_PROXY_PORT:-9443}:443"
+    volumes:
+      - ./proxy/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./proxy/certs:/etc/nginx/certs:ro
+    depends_on:
+      frontend:
+        condition: service_started
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --no-access-log
+    expose:
+      - "8000"
+    volumes:
+      - ./backend/app:/app/app
+      - ./models/huggingface:/models/huggingface
+      - ./models/torch:/models/torch
+      - ./models/cache:/models/cache
+      - ./models/llama_cpp:/app/models/llama_cpp
+    environment:
+      WHISPER_MODEL: ${WHISPER_MODEL:-turbo}
+      DIARIZATION_MODEL: ${DIARIZATION_MODEL:-auto}
+      SUMMARY_MODEL: ${SUMMARY_MODEL:-gpt-4.1-mini}
+      PYANNOTE_TOKEN: ${PYANNOTE_TOKEN:-}
+      HF_HOME: /models/huggingface
+      HUGGINGFACE_HUB_CACHE: /models/huggingface/hub
+      TRANSFORMERS_CACHE: /models/huggingface/transformers
+      TORCH_HOME: /models/torch
+      XDG_CACHE_HOME: /models/cache
+      TRANSCRIPTION_MAX_CONCURRENT_JOBS: ${TRANSCRIPTION_MAX_CONCURRENT_JOBS:-1}
+      LLM_PROVIDER: ${LLM_PROVIDER:-azure_openai}
+      LLM_MODEL: ${LLM_MODEL:-gpt-4.1-mini}
+      LLM_AZURE_ENDPOINT: ${LLM_AZURE_ENDPOINT:-https://modelle-michi.openai.azure.com}
+      LLM_AZURE_API_KEY: ${LLM_AZURE_API_KEY:-}
+      LLM_AZURE_API_VERSION: ${LLM_AZURE_API_VERSION:-2025-01-01-preview}
+      LLM_LOCAL_MODEL_PATH: ${LLM_LOCAL_MODEL_PATH:-/app/models/llama_cpp/gemma3-4b/google_gemma-3-4b-it-qat-Q4_0.gguf}
+      LLM_LOCAL_CONTEXT_SIZE: ${LLM_LOCAL_CONTEXT_SIZE:-8192}
+      LLM_LOCAL_GPU_LAYERS: ${LLM_LOCAL_GPU_LAYERS:-0}
+      LLM_BASE_URL: ${LLM_BASE_URL:-}
+      LLM_COMPLETIONS_PATH: ${LLM_COMPLETIONS_PATH:-/v1/chat/completions}
+      MEETING_WEBHOOK_URL: ${MEETING_WEBHOOK_URL:-}
+      MEETING_WEBHOOK_TIMEOUT_SECONDS: ${MEETING_WEBHOOK_TIMEOUT_SECONDS:-20}
+      MEETING_WEBHOOK_MAX_RETRIES: ${MEETING_WEBHOOK_MAX_RETRIES:-3}
+      MEETING_WEBHOOK_BACKOFF_SECONDS: ${MEETING_WEBHOOK_BACKOFF_SECONDS:-1}
+      MEETING_WEBHOOK_VERIFY_TLS: ${MEETING_WEBHOOK_VERIFY_TLS:-true}
+      MEETING_WEBHOOK_CA_CERT_PATH: ${MEETING_WEBHOOK_CA_CERT_PATH:-}
+      NVIDIA_VISIBLE_DEVICES: ${NVIDIA_VISIBLE_DEVICES:-all}
+      NVIDIA_DRIVER_CAPABILITIES: ${NVIDIA_DRIVER_CAPABILITIES:-compute,utility}
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: ${NVIDIA_GPU_COUNT:-all}
+              capabilities: [gpu]
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - >-
+          python -c "import urllib.request;
+          urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=2)"
+      interval: 10s
+      timeout: 3s
+      retries: 10
+      start_period: 20s
+    restart: unless-stopped
+
+  frontend:
+    image: python:3.11-slim
+    working_dir: /app/frontend
+    command: /bin/bash /app/frontend/start.sh
+    volumes:
+      - ./frontend:/app/frontend
+    expose:
+      - "4173"
+    environment:
+      API_BASE_URL: ${API_BASE_URL:-same-origin}
+      API_PORT: ""
+      MEETING_WEBHOOK_URL: ${MEETING_WEBHOOK_URL:-}
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
