@@ -1,0 +1,1 @@
+"""Aurora Minutes backend package."""
