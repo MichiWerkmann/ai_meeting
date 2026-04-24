@@ -1,0 +1,34 @@
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Python environments and caches
+.venv/
+.uv-cache/
+.uv-python/
+.pytest_cache/
+__pycache__/
+*.py[cod]
+
+# Tooling and local runtime data
+.docker-tmp/
+tmp/
+output/
+git_meta/
+backend/.pytest_cache/
+backend/runtime_jobs/
+
+# Local models and large artifacts
+models/
+assets/transcripts/
+assets/uploads/
+
+# Local TLS material
+proxy/certs/server.crt
+proxy/certs/server.key
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+gcm-diagnose.log
