@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Aurora AI | Meetings, die beruehren und liefern</title>
+    <meta
+      name="description"
+      content="Aurora AI verwandelt Meetings in klare Entscheidungen, echte Verantwortung und messbare Umsetzung."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Sora:wght@500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="ambient ambient-left" aria-hidden="true"></div>
+    <div class="ambient ambient-right" aria-hidden="true"></div>
+
+    <header class="hero section reveal">
+      <nav class="topbar">
+        <div class="logo">Aurora AI</div>
+        <a class="btn btn-ghost" href="#pakete">Pakete ansehen</a>
+      </nav>
+
+      <div class="hero-grid">
+        <div>
+          <p class="eyebrow">Weniger Meeting-Frust. Mehr Momentum.</p>
+          <h1>Aus Gespraechen werden Entscheidungen, die umgesetzt werden.</h1>
+          <p class="lead">
+            Aurora AI hoert zu, strukturiert automatisch und erstellt Minutes,
+            die Teams sofort in Bewegung bringen. Keine Notizzettel, kein
+            Interpretationschaos, keine verlorenen To-dos.
+          </p>
+          <div class="cta-row">
+            <a class="btn btn-primary" href="#pakete">Jetzt passend starten</a>
+            <a class="btn btn-ghost" href="#ablauf">So funktioniert es</a>
+          </div>
+        </div>
+
+        <aside class="hero-card">
+          <p class="card-title">Warum Kunden Aurora lieben</p>
+          <ul>
+            <li>Klare Minutes in wenigen Minuten</li>
+            <li>Action Items mit Owner und Faelligkeit</li>
+            <li>Volle Kontrolle ueber Daten und Betrieb</li>
+          </ul>
+        </aside>
+      </div>
+    </header>
+
+    <main>
+      <section class="section reveal" id="ablauf">
+        <p class="eyebrow">Der Unterschied</p>
+        <h2>Meetings, die nicht nur dokumentieren, sondern steuern.</h2>
+        <div class="steps">
+          <article class="panel">
+            <span>01</span>
+            <h3>Aufnehmen oder hochladen</h3>
+            <p>Audio rein, ohne komplizierten Prozess fuer dein Team.</p>
+          </article>
+          <article class="panel">
+            <span>02</span>
+            <h3>Automatisch verstehen</h3>
+            <p>Transkript, Struktur, Entscheidungen und Aufgaben in einem Fluss.</p>
+          </article>
+          <article class="panel">
+            <span>03</span>
+            <h3>Sofort handeln</h3>
+            <p>Minutes teilen, Verantwortung klar machen, Umsetzung beschleunigen.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section reveal" id="pakete">
+        <p class="eyebrow">Pakete</p>
+        <h2>Waehle die Variante, die zu deiner IT-Strategie passt.</h2>
+
+        <div class="plans">
+          <article class="plan plan-basic">
+            <p class="plan-tag">Basic</p>
+            <h3>Schnell produktiv mit Azure</h3>
+            <p class="plan-copy">
+              Ideal fuer Teams, die sofort starten wollen: Azure-Anbindung plus
+              einfache Windows-Installation.
+            </p>
+            <ul>
+              <li>Azure-Anbindung fuer KI-Services</li>
+              <li>Einfache Installation unter Windows</li>
+              <li>Kurze Einfuehrungszeit fuer Fachabteilungen</li>
+              <li>Perfekt fuer schnellen Rollout</li>
+            </ul>
+            <a class="btn btn-primary" href="#kontakt">Basic anfragen</a>
+          </article>
+
+          <article class="plan plan-pro">
+            <p class="plan-tag">Pro</p>
+            <h3>Maximale Kontrolle komplett lokal</h3>
+            <p class="plan-copy">
+              Fuer Unternehmen mit hohen Compliance-Anspruechen: alles lokal,
+              containerisiert mit Docker.
+            </p>
+            <ul>
+              <li>Vollstaendig lokale Verarbeitung</li>
+              <li>Deployment mit Docker</li>
+              <li>Keine externe Cloud-Anbindung notwendig</li>
+              <li>Ideal fuer sensible Daten und strenge Policies</li>
+            </ul>
+            <a class="btn btn-primary" href="#kontakt">Pro anfragen</a>
+          </article>
+        </div>
+      </section>
+
+      <section class="section section-contact reveal" id="kontakt">
+        <p class="eyebrow">Bereit fuer den naechsten Schritt?</p>
+        <h2>Gib deinen Meetings Wirkung.</h2>
+        <p>
+          Du willst, dass Kunden und Teams sofort verstehen, worum es geht und
+          was als Naechstes zu tun ist. Aurora AI macht genau das sichtbar.
+        </p>
+        <a class="btn btn-primary" href="mailto:kontakt@aurora-ai.example">Kontakt aufnehmen</a>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>© <span id="year"></span> Aurora AI. Alle Rechte vorbehalten.</p>
+    </footer>
+
+    <script>
+      const reveals = document.querySelectorAll('.reveal');
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+              io.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.15 }
+      );
+      reveals.forEach((el) => io.observe(el));
+      document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+  </body>
+</html>

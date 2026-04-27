@@ -1,0 +1,301 @@
+:root {
+  --bg: #0a0f1d;
+  --surface: #111a2e;
+  --surface-soft: #172440;
+  --text: #f7f8ff;
+  --muted: #a5b2d3;
+  --line: rgba(146, 182, 255, 0.24);
+  --accent: #67e0b8;
+  --accent-strong: #31c997;
+  --warm: #ffb36d;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  color: var(--text);
+  background:
+    linear-gradient(160deg, #070b17 0%, #0b1223 45%, #0a1327 100%),
+    var(--bg);
+  font-family: "DM Sans", "Segoe UI", sans-serif;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  font-family: "Sora", "Segoe UI", sans-serif;
+  letter-spacing: -0.03em;
+}
+
+p {
+  margin: 0;
+  line-height: 1.6;
+}
+
+.ambient {
+  position: fixed;
+  width: 22rem;
+  height: 22rem;
+  border-radius: 999px;
+  filter: blur(40px);
+  opacity: 0.33;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.ambient-left {
+  top: -5rem;
+  left: -6rem;
+  background: #266bff;
+}
+
+.ambient-right {
+  right: -7rem;
+  bottom: 5rem;
+  background: #35dca8;
+}
+
+.section {
+  position: relative;
+  z-index: 1;
+  width: min(1120px, 92vw);
+  margin: 0 auto;
+  padding: 4rem 0;
+}
+
+.hero {
+  padding-top: 2rem;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2.5rem;
+}
+
+.logo {
+  font-family: "Sora", sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 1.2rem;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.76rem;
+  color: var(--accent);
+  margin-bottom: 0.9rem;
+}
+
+h1 {
+  font-size: clamp(2.2rem, 5vw, 4.1rem);
+  max-width: 14ch;
+  line-height: 1.03;
+}
+
+h2 {
+  font-size: clamp(1.8rem, 3.2vw, 2.9rem);
+  max-width: 22ch;
+  line-height: 1.1;
+}
+
+.lead {
+  color: var(--muted);
+  margin-top: 1.2rem;
+  max-width: 56ch;
+}
+
+.cta-row {
+  margin-top: 1.6rem;
+  display: flex;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  padding: 0.85rem 1.35rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform 150ms ease, box-shadow 150ms ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn-primary {
+  color: #042218;
+  background: linear-gradient(120deg, var(--accent), var(--warm));
+  box-shadow: 0 12px 30px rgba(53, 220, 168, 0.25);
+}
+
+.btn-ghost {
+  color: var(--text);
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.hero-card,
+.panel,
+.plan,
+.section-contact {
+  border: 1px solid var(--line);
+  background: linear-gradient(165deg, rgba(18, 31, 58, 0.94), rgba(14, 24, 46, 0.94));
+  border-radius: 1.25rem;
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.26);
+}
+
+.hero-card {
+  padding: 1.2rem;
+}
+
+.card-title {
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.hero-card ul,
+.plan ul {
+  margin: 0;
+  padding-left: 1.1rem;
+  display: grid;
+  gap: 0.55rem;
+  color: var(--muted);
+}
+
+.steps,
+.plans {
+  margin-top: 1.2rem;
+  display: grid;
+  gap: 0.9rem;
+}
+
+.steps {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.panel {
+  padding: 1rem;
+}
+
+.panel span {
+  color: var(--accent);
+  font-weight: 700;
+  display: block;
+  margin-bottom: 0.4rem;
+}
+
+.panel h3,
+.plan h3 {
+  font-size: 1.15rem;
+}
+
+.panel p,
+.plan-copy,
+.section-contact p {
+  color: var(--muted);
+  margin-top: 0.55rem;
+}
+
+.plans {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.plan {
+  padding: 1.3rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.plan::before {
+  content: "";
+  position: absolute;
+  inset: auto -4rem -7rem auto;
+  width: 14rem;
+  height: 14rem;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(53, 220, 168, 0.22), transparent 70%);
+}
+
+.plan-tag {
+  display: inline-block;
+  border-radius: 999px;
+  padding: 0.3rem 0.7rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.65rem;
+}
+
+.plan-basic .plan-tag {
+  background: rgba(86, 126, 255, 0.22);
+  color: #bad0ff;
+}
+
+.plan-pro {
+  border-color: rgba(103, 224, 184, 0.55);
+}
+
+.plan-pro .plan-tag {
+  background: rgba(103, 224, 184, 0.2);
+  color: #8bffd7;
+}
+
+.plan .btn {
+  margin-top: 1rem;
+}
+
+.section-contact {
+  padding: 1.5rem;
+}
+
+.footer {
+  border-top: 1px solid var(--line);
+  padding: 1.2rem 4vw 2rem;
+  text-align: center;
+  color: var(--muted);
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 500ms ease, transform 500ms ease;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (max-width: 960px) {
+  .hero-grid,
+  .plans,
+  .steps {
+    grid-template-columns: 1fr;
+  }
+
+  .section {
+    padding: 3rem 0;
+  }
+
+  h1,
+  h2 {
+    max-width: none;
+  }
+}
