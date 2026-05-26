@@ -103,6 +103,8 @@ services:
       WATCHTOWER_INCLUDE_RESTARTING: "true"
       WATCHTOWER_ROLLING_RESTART: "true"
       DOCKER_CONFIG: /config/.docker
+      # Docker Desktop / Engine 29.x verlangt API 1.44+. Watchtower-Default ist zu alt.
+      DOCKER_API_VERSION: ${DOCKER_API_VERSION:-1.45}
       TZ: ${TZ:-Europe/Berlin}
     labels:
       - "com.centurylinklabs.watchtower.enable=false"
