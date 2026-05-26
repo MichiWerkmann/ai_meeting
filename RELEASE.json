@@ -1,20 +1,16 @@
 {
-  "version": "1.0.1",
+  "version": "1.0.2",
   "date": "2026-05-26",
-  "title": "Persistente Daten beim Auto-Update",
-  "subtitle": "User-Accounts und Jobs überleben jedes Update",
+  "title": "Im Röwaplan-Grün",
+  "subtitle": "Release-Popup folgt jetzt dem aktiven Theme",
   "highlights": [
     {
-      "icon": "shield",
-      "text": "Benutzerkonten und Einstellungen bleiben bei Updates erhalten (persistent volume)."
-    },
-    {
-      "icon": "zap",
-      "text": "Laufende Transkriptions-Jobs sind nach Update weiterhin sichtbar."
+      "icon": "sparkles",
+      "text": "Popup nutzt das Röwaplan-Grün statt eines Fremd-Akzents."
     },
     {
       "icon": "gear",
-      "text": "Neuer ENV-Wert AURORA_RUNTIME_DIR steuert das Datenverzeichnis."
+      "text": "Farben werden aus den Theme-Variablen abgeleitet — kein Hardcode mehr."
     }
   ]
 }
