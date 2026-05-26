@@ -1,16 +1,28 @@
 {
-  "version": "1.0.2",
+  "version": "1.0.3",
   "date": "2026-05-26",
-  "title": "Im Röwaplan-Grün",
-  "subtitle": "Release-Popup folgt jetzt dem aktiven Theme",
+  "title": "Profil & Benutzerverwaltung",
+  "subtitle": "Neue Anmeldeseite, eigenes Profil und Admin-Panel",
   "highlights": [
     {
+      "icon": "shield",
+      "text": "Admin-Rolle: Erster Benutzer wird automatisch Admin und kann Konten verwalten."
+    },
+    {
+      "icon": "lock",
+      "text": "Eigenes Passwort jederzeit über 'Mein Profil' ändern."
+    },
+    {
       "icon": "sparkles",
-      "text": "Popup nutzt das Röwaplan-Grün statt eines Fremd-Akzents."
+      "text": "Neue Login-Seite mit Tabs, Passwort-Stärke-Anzeige und Inline-Validierung."
     },
     {
       "icon": "gear",
-      "text": "Farben werden aus den Theme-Variablen abgeleitet — kein Hardcode mehr."
+      "text": "Benutzerverwaltung: Anlegen, deaktivieren, Admin-Rechte vergeben, Passwort zurücksetzen, löschen."
+    },
+    {
+      "icon": "fire",
+      "text": "Sicherheitsfix: hartkodiertes Admin-Passwort entfernt; Einstellungsseite prüft jetzt die Admin-Rolle gegen das Backend."
     }
   ]
 }

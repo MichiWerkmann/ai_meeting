@@ -14,18 +14,49 @@
     <script src="config.js"></script>
     <script>(function(){var cfg=window.__APP_CONFIG__||{};var t=cfg.UI_THEME||localStorage.getItem('app-theme')||'aurora';document.documentElement.dataset.theme=t;if(t==='meetingai')document.title='Meeting AI Einstellungen';})()</script>
     <script>
-      // Admin-Passwortschutz – wird vor dem Laden der Seite ausgeführt
+      // Admin-Zugriffskontrolle gegen das Backend (kein Frontend-Passwort mehr).
       (function () {
-        var ADMIN_PW = "aurora-admin";
-        var SESSION_KEY = "aurora_admin_ok";
-        if (sessionStorage.getItem(SESSION_KEY) !== "1") {
-          var pw = prompt("Admin-Passwort eingeben:");
-          if (pw !== ADMIN_PW) {
-            document.write("<p style='font-family:sans-serif;padding:2rem'>Zugriff verweigert.</p>");
-            setTimeout(function () { window.location.replace("index.html"); }, 2000);
-            throw new Error("Zugriff verweigert");
-          }
-          sessionStorage.setItem(SESSION_KEY, "1");
+        var cfg = window.__APP_CONFIG__ || {};
+        var apiBase;
+        if (cfg.API_BASE_URL === "same-origin") {
+          apiBase = window.location.origin;
+        } else if (cfg.API_BASE_URL) {
+          apiBase = String(cfg.API_BASE_URL).replace(/\/$/, "");
+        } else {
+          var port = cfg.API_PORT || "";
+          apiBase = window.location.protocol + "//" + window.location.hostname + (port ? ":" + port : "");
+        }
+        var token = localStorage.getItem("aurora-auth-token-v1") || "";
+        if (!token) {
+          window.location.replace("login.html?next=settings.html");
+          throw new Error("not authenticated");
+        }
+        // Synchrones XHR ist hier akzeptabel, weil wir bewusst vor jeder weiteren
+        // Aktion sperren wollen, falls der User kein Admin ist.
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", apiBase + "/api/auth/me", false);
+        xhr.setRequestHeader("Authorization", "Bearer " + token);
+        try {
+          xhr.send();
+        } catch (e) {
+          document.write("<p style='font-family:sans-serif;padding:2rem'>Backend nicht erreichbar.</p>");
+          throw e;
+        }
+        if (xhr.status === 401) {
+          localStorage.removeItem("aurora-auth-token-v1");
+          window.location.replace("login.html");
+          throw new Error("session expired");
+        }
+        if (xhr.status !== 200) {
+          document.write("<p style='font-family:sans-serif;padding:2rem'>Zugriff konnte nicht geprüft werden.</p>");
+          throw new Error("auth check failed");
+        }
+        var me = {};
+        try { me = JSON.parse(xhr.responseText) || {}; } catch (e) { me = {}; }
+        if (!me.is_admin) {
+          document.write("<p style='font-family:sans-serif;padding:2rem'>Zugriff verweigert. Diese Seite ist nur für Administratoren sichtbar.</p>");
+          setTimeout(function () { window.location.replace("index.html"); }, 1500);
+          throw new Error("not admin");
         }
       })();
     </script>

@@ -333,8 +333,41 @@ class AuthenticatedUser(BaseModel):
     email: str
     created_at: float
     last_login_at: float | None = None
+    is_admin: bool = False
+    is_active: bool = True
 
 
 class AuthSessionResponse(BaseModel):
     token: str
     user: AuthenticatedUser
+
+
+class PasswordChangeRequest(BaseModel):
+    current_password: str
+    new_password: str
+
+
+class ProfileUpdateRequest(BaseModel):
+    name: str | None = None
+
+
+class AdminCreateUserRequest(BaseModel):
+    name: str
+    email: str
+    password: str
+    is_admin: bool = False
+
+
+class AdminUpdateUserRequest(BaseModel):
+    name: str | None = None
+    email: str | None = None
+    is_admin: bool | None = None
+    is_active: bool | None = None
+
+
+class AdminSetPasswordRequest(BaseModel):
+    new_password: str
+
+
+class AdminUserListResponse(BaseModel):
+    users: List[AuthenticatedUser]

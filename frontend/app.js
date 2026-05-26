@@ -217,6 +217,31 @@ const setAuthState = ({ token = "", user = null } = {}) => {
   updateAuthUi();
 };
 
+// Globale 401-Behandlung: wenn ein Request mit Authorization-Header eine 401
+// zurückgibt, ist der Token abgelaufen oder der Account deaktiviert -> sauber
+// ausloggen und zur Login-Seite. Verhindert "mysteriöse" Fehler im UI.
+(() => {
+  if (typeof window === "undefined" || !window.fetch || window.__auroraFetchPatched) return;
+  window.__auroraFetchPatched = true;
+  const originalFetch = window.fetch.bind(window);
+  let redirecting = false;
+  window.fetch = async (input, init) => {
+    const response = await originalFetch(input, init);
+    if (response.status === 401 && !redirecting) {
+      const headers = new Headers((init && init.headers) || {});
+      const hadAuth = headers.has("Authorization") || (input instanceof Request && input.headers?.has?.("Authorization"));
+      if (hadAuth) {
+        redirecting = true;
+        try {
+          localStorage.removeItem(AUTH_TOKEN_STORAGE_KEY);
+        } catch (_) { /* ignore */ }
+        window.location.replace("login.html");
+      }
+    }
+    return response;
+  };
+})();
+
 const getStoredAuthToken = () => localStorage.getItem(AUTH_TOKEN_STORAGE_KEY) || "";
 
 const buildUserInitials = (name, email) => {
@@ -256,6 +281,10 @@ const updateAuthUi = () => {
     profileInitials.textContent = authenticated
       ? buildUserInitials(currentUser.name, currentUser.email)
       : "U";
+  }
+  const profileLinkAdmin = document.getElementById("profileLinkAdmin");
+  if (profileLinkAdmin) {
+    profileLinkAdmin.classList.toggle("hidden", !(authenticated && currentUser?.is_admin));
   }
   if (logoutBtn) {
     logoutBtn.disabled = !authenticated;

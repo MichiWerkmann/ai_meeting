@@ -11,6 +11,10 @@ from fastapi import FastAPI, File, Form, HTTPException, Header, Query, Response,
 from fastapi.middleware.cors import CORSMiddleware
 
 from .schemas import (
+    AdminCreateUserRequest,
+    AdminSetPasswordRequest,
+    AdminUpdateUserRequest,
+    AdminUserListResponse,
     AnalysisResponse,
     AuthenticatedUser,
     AuthLoginRequest,
@@ -18,6 +22,8 @@ from .schemas import (
     AuthSessionResponse,
     AsyncTranscriptionJobResponse,
     HealthResponse,
+    PasswordChangeRequest,
+    ProfileUpdateRequest,
     ManualSegment,
     ModelDownloadRequest,
     ModelDownloadResponse,
@@ -167,6 +173,148 @@ def logout_user(authorization: str | None = Header(default=None)) -> Response:
             auth_service.logout(token)
         except ValueError:
             pass
+    return Response(status_code=204)
+
+
+def _require_auth_token(authorization: str | None) -> str:
+    token = _extract_bearer_token(authorization)
+    if not token:
+        raise HTTPException(status_code=401, detail="Nicht angemeldet.")
+    return token
+
+
+@app.post("/api/auth/change-password", status_code=204, response_class=Response)
+def change_own_password(
+    payload: PasswordChangeRequest,
+    authorization: str | None = Header(default=None),
+) -> Response:
+    token = _require_auth_token(authorization)
+    try:
+        auth_service.change_password(
+            token=token,
+            current_password=payload.current_password,
+            new_password=payload.new_password,
+        )
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except RuntimeError as exc:
+        raise HTTPException(status_code=401, detail=str(exc)) from exc
+    return Response(status_code=204)
+
+
+@app.patch("/api/auth/profile", response_model=AuthenticatedUser)
+def update_own_profile(
+    payload: ProfileUpdateRequest,
+    authorization: str | None = Header(default=None),
+) -> AuthenticatedUser:
+    token = _require_auth_token(authorization)
+    try:
+        user = auth_service.update_profile(token=token, name=payload.name)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except RuntimeError as exc:
+        raise HTTPException(status_code=401, detail=str(exc)) from exc
+    return AuthenticatedUser.model_validate(user)
+
+
+# ---------- Admin user management ----------
+
+@app.get("/api/admin/users", response_model=AdminUserListResponse)
+def admin_list_users(authorization: str | None = Header(default=None)) -> AdminUserListResponse:
+    token = _require_auth_token(authorization)
+    try:
+        users = auth_service.list_users(requester_token=token)
+    except PermissionError as exc:
+        raise HTTPException(status_code=403, detail=str(exc)) from exc
+    except RuntimeError as exc:
+        raise HTTPException(status_code=401, detail=str(exc)) from exc
+    return AdminUserListResponse(users=[AuthenticatedUser.model_validate(u) for u in users])
+
+
+@app.post("/api/admin/users", response_model=AuthenticatedUser, status_code=201)
+def admin_create_user(
+    payload: AdminCreateUserRequest,
+    authorization: str | None = Header(default=None),
+) -> AuthenticatedUser:
+    token = _require_auth_token(authorization)
+    try:
+        user = auth_service.admin_create_user(
+            requester_token=token,
+            name=payload.name,
+            email=payload.email,
+            password=payload.password,
+            is_admin=payload.is_admin,
+        )
+    except PermissionError as exc:
+        raise HTTPException(status_code=403, detail=str(exc)) from exc
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except RuntimeError as exc:
+        raise HTTPException(status_code=401, detail=str(exc)) from exc
+    return AuthenticatedUser.model_validate(user)
+
+
+@app.patch("/api/admin/users/{user_id}", response_model=AuthenticatedUser)
+def admin_update_user(
+    user_id: str,
+    payload: AdminUpdateUserRequest,
+    authorization: str | None = Header(default=None),
+) -> AuthenticatedUser:
+    token = _require_auth_token(authorization)
+    try:
+        user = auth_service.admin_update_user(
+            requester_token=token,
+            user_id=user_id,
+            name=payload.name,
+            email=payload.email,
+            is_admin=payload.is_admin,
+            is_active=payload.is_active,
+        )
+    except PermissionError as exc:
+        raise HTTPException(status_code=403, detail=str(exc)) from exc
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except RuntimeError as exc:
+        raise HTTPException(status_code=401, detail=str(exc)) from exc
+    return AuthenticatedUser.model_validate(user)
+
+
+@app.post("/api/admin/users/{user_id}/reset-password", status_code=204, response_class=Response)
+def admin_reset_password(
+    user_id: str,
+    payload: AdminSetPasswordRequest,
+    authorization: str | None = Header(default=None),
+) -> Response:
+    token = _require_auth_token(authorization)
+    try:
+        auth_service.admin_set_password(
+            requester_token=token,
+            user_id=user_id,
+            new_password=payload.new_password,
+        )
+    except PermissionError as exc:
+        raise HTTPException(status_code=403, detail=str(exc)) from exc
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except RuntimeError as exc:
+        raise HTTPException(status_code=401, detail=str(exc)) from exc
+    return Response(status_code=204)
+
+
+@app.delete("/api/admin/users/{user_id}", status_code=204, response_class=Response)
+def admin_delete_user(
+    user_id: str,
+    authorization: str | None = Header(default=None),
+) -> Response:
+    token = _require_auth_token(authorization)
+    try:
+        auth_service.admin_delete_user(requester_token=token, user_id=user_id)
+    except PermissionError as exc:
+        raise HTTPException(status_code=403, detail=str(exc)) from exc
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except RuntimeError as exc:
+        raise HTTPException(status_code=401, detail=str(exc)) from exc
     return Response(status_code=204)
 
 

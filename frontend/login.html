@@ -3,15 +3,18 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0b6a4f" />
+    <meta name="description" content="Aurora Minutes – sicherer Zugang zu deinem Meeting-Workspace." />
     <title>Aurora Login</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Outfit:wght@500;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css" />
-    <script src="config.js?v=20260415a"></script>
+    <link rel="stylesheet" href="styles.css?v=20260526b" />
+    <script src="config.js?v=20260526b"></script>
     <script>
       (function () {
         var cfg = window.__APP_CONFIG__ || {};
@@ -21,60 +24,73 @@
       })();
     </script>
   </head>
-  <body>
-    <main class="app-shell">
-      <header class="hero">
-        <div class="brand-intro">
+  <body class="auth-body">
+    <main class="auth-shell">
+      <div class="auth-card">
+        <div class="auth-brand">
           <div class="brand-mark theme-aurora" aria-hidden="true">A</div>
           <img class="brand-logo theme-meetingai" src="assets/roewaplan-logo.png" alt="RÖWAPLAN" />
           <p class="eyebrow theme-aurora">Aurora</p>
           <p class="eyebrow theme-meetingai">Meeting AI</p>
-          <h1>Persönlicher Bereich für Meetings</h1>
-          <p class="theme-aurora">
-            Melde dich an, um deine eigenen Meetings aufzunehmen, wiederzufinden und Automatisierungen zu nutzen.
-          </p>
-          <p class="theme-meetingai">
-            Melde dich an, um deine eigenen Meetings aufzunehmen, wiederzufinden und Automatisierungen zu nutzen.
-          </p>
         </div>
-        <div class="hero-card">
-          <p class="hero-label">Sicherer Zugang</p>
-          <p id="loginStatusText" role="status" aria-live="polite">Bitte anmelden</p>
-          <span id="loginStatusBadge" class="hero-chip hero-chip-soft">Nicht angemeldet</span>
-        </div>
-      </header>
 
-      <section class="panel">
-        <div class="meeting-detail-header">
-          <h2>Login</h2>
+        <div class="auth-tabs" role="tablist" aria-label="Login oder Registrierung">
+          <button id="tabLogin" class="auth-tab is-active" type="button" role="tab" aria-selected="true" data-mode="login">Anmelden</button>
+          <button id="tabRegister" class="auth-tab" type="button" role="tab" aria-selected="false" data-mode="register">Registrieren</button>
         </div>
-        <form id="authForm" class="settings-grid">
-          <label class="settings-field">
-            <span>Modus</span>
-            <select id="authMode">
-              <option value="login" selected>Anmelden</option>
-              <option value="register">Registrieren</option>
-            </select>
-          </label>
-          <label id="authNameField" class="settings-field hidden">
-            <span>Name</span>
-            <input id="authNameInput" type="text" autocomplete="name" placeholder="Max Mustermann" />
-          </label>
-          <label class="settings-field">
-            <span>E-Mail</span>
-            <input id="authEmailInput" type="email" autocomplete="username" placeholder="name@firma.de" required />
-          </label>
-          <label class="settings-field">
-            <span>Passwort</span>
-            <input id="authPasswordInput" type="password" autocomplete="current-password" placeholder="Mindestens 8 Zeichen" required />
-          </label>
-          <div class="settings-actions">
-            <button id="authSubmitBtn" class="primary" type="submit">Anmelden</button>
+
+        <form id="authForm" class="auth-form" novalidate>
+          <div id="authNameField" class="auth-field hidden">
+            <label for="authNameInput">Name</label>
+            <input id="authNameInput" name="name" type="text" autocomplete="name" placeholder="Max Mustermann" />
+            <p class="auth-error" id="authNameError" role="alert"></p>
           </div>
+
+          <div class="auth-field">
+            <label for="authEmailInput">E-Mail</label>
+            <input id="authEmailInput" name="email" type="email" autocomplete="username" placeholder="name@firma.de" required />
+            <p class="auth-error" id="authEmailError" role="alert"></p>
+          </div>
+
+          <div class="auth-field">
+            <label for="authPasswordInput">Passwort</label>
+            <div class="auth-password-wrap">
+              <input id="authPasswordInput" name="password" type="password" autocomplete="current-password" placeholder="Mindestens 8 Zeichen" required />
+              <button id="authPasswordToggle" type="button" class="auth-password-toggle" aria-label="Passwort anzeigen" aria-pressed="false">
+                <span aria-hidden="true">👁</span>
+              </button>
+            </div>
+            <div id="authPasswordStrength" class="auth-strength hidden" aria-live="polite">
+              <div class="auth-strength-bar"><div class="auth-strength-fill" data-level="0"></div></div>
+              <span class="auth-strength-label">Passwort-Stärke</span>
+            </div>
+            <p class="auth-error" id="authPasswordError" role="alert"></p>
+          </div>
+
+          <div id="authFormError" class="auth-form-error hidden" role="alert"></div>
+
+          <button id="authSubmitBtn" class="auth-submit" type="submit">
+            <span class="auth-submit-label">Anmelden</span>
+            <span class="auth-submit-spinner" aria-hidden="true"></span>
+          </button>
+
+          <p class="auth-helper">
+            <span data-when="login">Noch keinen Zugang? </span>
+            <span data-when="register">Schon registriert? </span>
+            <a id="authToggleLink" href="#" role="button" data-target="register">Jetzt registrieren</a>
+          </p>
         </form>
-      </section>
+
+        <p id="loginStatusText" class="auth-status" role="status" aria-live="polite"></p>
+      </div>
+
+      <p class="auth-footer">
+        <span class="theme-aurora">Aurora Minutes</span>
+        <span class="theme-meetingai">Meeting AI</span>
+        · <span id="authVersionBadge">v…</span>
+      </p>
     </main>
 
-    <script type="module" src="login.js?v=20260526a"></script>
+    <script type="module" src="login.js?v=20260526b"></script>
   </body>
 </html>

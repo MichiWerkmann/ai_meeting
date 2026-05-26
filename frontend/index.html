@@ -3,15 +3,18 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0b6a4f" />
+    <meta name="description" content="Aurora Minutes – Meeting-Aufnahme, Transkription und automatische Minutes." />
     <title>Aurora Minutes</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Outfit:wght@500;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css" />
-    <script src="config.js?v=20260415a"></script>
+    <link rel="stylesheet" href="styles.css?v=20260526b" />
+    <script src="config.js?v=20260526b"></script>
     <script>
       (function () {
         var cfg = window.__APP_CONFIG__ || {};
@@ -32,6 +35,8 @@
           </button>
           <div id="profileDropdown" class="profile-dropdown hidden" role="menu" aria-label="Benutzer-Menue">
             <p id="profileEmail" class="profile-email">-</p>
+            <a id="profileLinkSelf" class="ghost profile-logout-btn" href="profile.html" role="menuitem" style="display:flex; align-items:center; justify-content:center; text-decoration:none; margin-bottom:0.4rem;">Mein Profil</a>
+            <a id="profileLinkAdmin" class="ghost profile-logout-btn hidden" href="admin.html" role="menuitem" style="display:flex; align-items:center; justify-content:center; text-decoration:none; margin-bottom:0.4rem;">Benutzerverwaltung</a>
             <button id="logoutBtn" class="ghost profile-logout-btn" type="button" role="menuitem">Abmelden</button>
           </div>
         </div>
@@ -235,7 +240,7 @@
 
     <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
 
-    <script src="release-popup.js?v=20260526a"></script>
-    <script type="module" src="app.js?v=20260415a"></script>
+    <script src="release-popup.js?v=20260526b"></script>
+    <script type="module" src="app.js?v=20260526b"></script>
   </body>
 </html>

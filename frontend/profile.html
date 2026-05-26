@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0b6a4f" />
+    <title>Aurora – Mein Profil</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Outfit:wght@500;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css?v=20260526b" />
+    <script src="config.js?v=20260526b"></script>
+    <script>
+      (function () {
+        var cfg = window.__APP_CONFIG__ || {};
+        var t = cfg.UI_THEME || localStorage.getItem("app-theme") || "aurora";
+        document.documentElement.dataset.theme = t;
+        if (t === "meetingai") document.title = "Meeting AI – Mein Profil";
+      })();
+    </script>
+  </head>
+  <body>
+    <main class="app-shell profile-page">
+      <a href="index.html" class="profile-back">← Zurück zur App</a>
+
+      <header class="hero" style="grid-template-columns: 1fr;">
+        <div class="brand-intro">
+          <p class="eyebrow">Mein Profil</p>
+          <h1 id="profileGreeting">Konto verwalten</h1>
+          <p class="hint">Hier kannst du deinen Namen aktualisieren und ein neues Passwort vergeben.</p>
+        </div>
+      </header>
+
+      <section class="profile-card">
+        <h2>Konto-Informationen</h2>
+        <div class="profile-readonly-row">
+          <span>Name</span>
+          <span id="profileName">…</span>
+        </div>
+        <div class="profile-readonly-row">
+          <span>E-Mail</span>
+          <span id="profileEmail">…</span>
+        </div>
+        <div class="profile-readonly-row">
+          <span>Rolle</span>
+          <span id="profileRole">…</span>
+        </div>
+        <div class="profile-readonly-row">
+          <span>Mitglied seit</span>
+          <span id="profileCreatedAt">…</span>
+        </div>
+        <div class="profile-readonly-row">
+          <span>Zuletzt angemeldet</span>
+          <span id="profileLastLogin">…</span>
+        </div>
+      </section>
+
+      <section class="profile-card">
+        <h2>Name ändern</h2>
+        <p class="hint">Dein Name erscheint im Header und in versendeten Meeting-Mails.</p>
+        <form id="nameForm" class="auth-form" novalidate>
+          <div class="auth-field">
+            <label for="nameInput">Name</label>
+            <input id="nameInput" type="text" autocomplete="name" required />
+            <p class="auth-error" id="nameErrorMsg" role="alert"></p>
+          </div>
+          <div id="nameSuccess" class="profile-row-success hidden">Name aktualisiert.</div>
+          <div style="display:flex; gap:0.6rem;">
+            <button id="nameSubmit" class="auth-submit" type="submit" style="flex:0 0 auto;">
+              <span class="auth-submit-label">Name speichern</span>
+              <span class="auth-submit-spinner" aria-hidden="true"></span>
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <section class="profile-card">
+        <h2>Passwort ändern</h2>
+        <p class="hint">Wähle ein neues Passwort mit mindestens 8 Zeichen. Andere offene Sitzungen werden beendet.</p>
+        <form id="passwordForm" class="auth-form" novalidate>
+          <div class="auth-field">
+            <label for="currentPw">Aktuelles Passwort</label>
+            <div class="auth-password-wrap">
+              <input id="currentPw" type="password" autocomplete="current-password" required />
+              <button type="button" class="auth-password-toggle" data-toggle="currentPw" aria-label="Passwort anzeigen" aria-pressed="false"><span aria-hidden="true">👁</span></button>
+            </div>
+            <p class="auth-error" id="currentPwError" role="alert"></p>
+          </div>
+          <div class="auth-field">
+            <label for="newPw">Neues Passwort</label>
+            <div class="auth-password-wrap">
+              <input id="newPw" type="password" autocomplete="new-password" minlength="8" required />
+              <button type="button" class="auth-password-toggle" data-toggle="newPw" aria-label="Passwort anzeigen" aria-pressed="false"><span aria-hidden="true">👁</span></button>
+            </div>
+            <div id="newPwStrength" class="auth-strength hidden" aria-live="polite">
+              <div class="auth-strength-bar"><div class="auth-strength-fill" data-level="0"></div></div>
+              <span class="auth-strength-label">Passwort-Stärke</span>
+            </div>
+            <p class="auth-error" id="newPwError" role="alert"></p>
+          </div>
+          <div class="auth-field">
+            <label for="confirmPw">Neues Passwort bestätigen</label>
+            <input id="confirmPw" type="password" autocomplete="new-password" required />
+            <p class="auth-error" id="confirmPwError" role="alert"></p>
+          </div>
+          <div id="pwFormError" class="auth-form-error hidden" role="alert"></div>
+          <div id="pwSuccess" class="profile-row-success hidden">Passwort erfolgreich geändert.</div>
+          <div style="display:flex; gap:0.6rem;">
+            <button id="passwordSubmit" class="auth-submit" type="submit" style="flex:0 0 auto;">
+              <span class="auth-submit-label">Passwort ändern</span>
+              <span class="auth-submit-spinner" aria-hidden="true"></span>
+            </button>
+          </div>
+        </form>
+      </section>
+    </main>
+
+    <script type="module" src="profile.js?v=20260526b"></script>
+  </body>
+</html>

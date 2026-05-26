@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0b6a4f" />
+    <title>Aurora – Benutzerverwaltung</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Outfit:wght@500;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css?v=20260526b" />
+    <script src="config.js?v=20260526b"></script>
+    <script>
+      (function () {
+        var cfg = window.__APP_CONFIG__ || {};
+        var t = cfg.UI_THEME || localStorage.getItem("app-theme") || "aurora";
+        document.documentElement.dataset.theme = t;
+        if (t === "meetingai") document.title = "Meeting AI – Benutzerverwaltung";
+      })();
+    </script>
+  </head>
+  <body>
+    <main class="app-shell profile-page" style="max-width: 1080px;">
+      <a href="index.html" class="profile-back">← Zurück zur App</a>
+
+      <header class="hero" style="grid-template-columns: 1fr;">
+        <div class="brand-intro">
+          <p class="eyebrow">Administration</p>
+          <h1>Benutzerverwaltung</h1>
+          <p class="hint">Erstelle neue Benutzer, vergebe Admin-Rechte, deaktiviere Accounts oder setze Passwörter zurück.</p>
+        </div>
+      </header>
+
+      <section class="profile-card">
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap;">
+          <div>
+            <h2 style="margin:0;">Benutzer</h2>
+            <p class="hint" style="margin:0.25rem 0 0;">Übersicht aller registrierten Konten.</p>
+          </div>
+          <button id="newUserBtn" class="auth-submit" type="button" style="padding:0.6rem 1rem; font-size:0.92rem;">+ Neuer Benutzer</button>
+        </div>
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>E-Mail</th>
+                <th>Rolle</th>
+                <th>Status</th>
+                <th>Letzter Login</th>
+                <th style="text-align:right;">Aktionen</th>
+              </tr>
+            </thead>
+            <tbody id="adminUsersBody">
+              <tr><td colspan="6" class="admin-empty">Lade Benutzer…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <!-- Generisches Confirm-Modal -->
+    <div id="confirmOverlay" class="confirm-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+      <div class="confirm-card">
+        <h3 id="confirmTitle">Bestätigung</h3>
+        <p id="confirmMessage">Bist du sicher?</p>
+        <div id="confirmFields"></div>
+        <div class="confirm-actions">
+          <button id="confirmCancel" type="button" class="ghost">Abbrechen</button>
+          <button id="confirmOk" type="button" class="auth-submit" style="padding:0.55rem 0.95rem;">OK</button>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="admin.js?v=20260526b"></script>
+  </body>
+</html>
