@@ -17,6 +17,7 @@ __pycache__/
 .docker-local/
 .codex_publish_test/
 .watchtower/
+.migration-backup/
 tmp/
 output/
 git_meta/
