@@ -1,0 +1,7 @@
+# Aurora Minutes – Backend-Abhängigkeiten (Azure-only Variante)
+# Lokale Modelle (whisperx, pyannote, torch, llama-cpp) sind nicht installiert.
+# Audio-Konvertierung erfolgt über das ffmpeg-Binary im Docker-Image.
+fastapi==0.110.2
+uvicorn[standard]==0.29.0
+python-multipart==0.0.9
+httpx==0.27.0

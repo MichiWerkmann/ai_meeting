@@ -1,0 +1,46 @@
+# Secrets
+.env
+.env.*
+!.env.example
+!.env.prod.example
+
+# Python environments and caches
+.venv/
+.uv-cache/
+.uv-python/
+.pytest_cache/
+__pycache__/
+*.py[cod]
+
+# Tooling and local runtime data
+.docker-tmp/
+.docker-local/
+.codex_publish_test/
+.watchtower/
+tmp/
+output/
+git_meta/
+backend/.pytest_cache/
+backend/runtime_jobs/
+backend/runtime_task_board.json
+backend/runtime_settings.json
+backend/runtime_auth.json
+
+# Local models and large artifacts
+models/
+installer/
+assets/transcripts/
+assets/uploads/
+
+# Installer/build artifacts (Inno Setup etc.)
+*.exe
+Aurora-Minutes-*.exe
+
+# Local TLS material (Zertifikate werden lokal generiert / sind sensitive)
+proxy/certs/server.crt
+proxy/certs/server.key
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+gcm-diagnose.log

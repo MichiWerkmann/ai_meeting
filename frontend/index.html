@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aurora Minutes</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Outfit:wght@500;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="config.js?v=20260415a"></script>
+    <script>
+      (function () {
+        var cfg = window.__APP_CONFIG__ || {};
+        var t = cfg.UI_THEME || localStorage.getItem("app-theme") || "aurora";
+        document.documentElement.dataset.theme = t;
+        if (t === "meetingai") document.title = "Meeting AI Minutes";
+      })();
+    </script>
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="hero">
+        <div id="profileMenu" class="profile-menu hidden">
+          <button id="profileMenuTrigger" class="profile-trigger" type="button" aria-expanded="false" aria-haspopup="true">
+            <span id="profileInitials" class="profile-avatar">U</span>
+            <span id="profileName" class="profile-name">Benutzer</span>
+            <span class="profile-caret" aria-hidden="true">&#9662;</span>
+          </button>
+          <div id="profileDropdown" class="profile-dropdown hidden" role="menu" aria-label="Benutzer-Menue">
+            <p id="profileEmail" class="profile-email">-</p>
+            <button id="logoutBtn" class="ghost profile-logout-btn" type="button" role="menuitem">Abmelden</button>
+          </div>
+        </div>
+        <div class="brand-intro">
+          <div class="brand-mark theme-aurora" aria-hidden="true">A</div>
+          <img class="brand-logo theme-meetingai" src="assets/roewaplan-logo.png" alt="ROEWAPLAN" />
+          <p class="eyebrow theme-aurora">Aurora</p>
+          <p class="eyebrow theme-meetingai">Meeting AI</p>
+          <h1>Meetings aufnehmen. Transkript lesen. Minutes fertig.</h1>
+          <p class="theme-aurora">
+            Aurora fuehrt dich in drei klaren Schritten durch dein Meeting:
+            Aufnahme starten oder Datei hochladen, Ergebnis pruefen, Minutes
+            exportieren oder senden.
+          </p>
+          <p class="theme-meetingai">
+            Meeting AI fuehrt dich in drei klaren Schritten durch dein Meeting:
+            Aufnahme starten oder Datei hochladen, Ergebnis pruefen, Minutes
+            exportieren oder senden.
+          </p>
+        </div>
+        <div class="hero-card">
+          <p class="hero-label theme-aurora">Aurora Status</p>
+          <p class="hero-label theme-meetingai">Meeting AI Status</p>
+          <p id="statusText" role="status" aria-live="polite">Bereit fuer Aufnahme</p>
+          <span id="apiStatusBadge" class="hero-chip hero-chip-soft">Verbindung wird geprueft</span>
+          <span id="timer">00:00:00</span>
+        </div>
+      </header>
+
+      <section class="workspace-shell">
+        <aside class="panel meeting-sidebar">
+          <div class="meeting-sidebar-header">
+            <h2>Meine Meetings</h2>
+          </div>
+          <div class="meeting-overview-card">
+            <h3 id="selectedMeetingTitle">Kein Meeting geladen</h3>
+            <p id="selectedMeetingMeta" class="hint">Starte eine Aufnahme oder lade eine Datei hoch.</p>
+          </div>
+          <div class="meeting-detail-actions">
+            <button id="cancelMeetingBtn" class="ghost" type="button" disabled>Verarbeitung stoppen</button>
+            <button id="deleteMeetingBtn" class="ghost" type="button" disabled>Meeting loeschen</button>
+          </div>
+          <div id="meetingList" class="meeting-list">
+            <p class="hint">Bitte anmelden, um Meetings zu sehen.</p>
+          </div>
+        </aside>
+
+        <section class="meeting-detail">
+          <section class="panel">
+            <div class="controls">
+              <button id="recordBtn" class="primary record-toggle" type="button" aria-pressed="false">
+                Aufnahme starten
+              </button>
+              <button id="stopBtn" class="ghost hidden" disabled>Stopp &amp; hochladen</button>
+              <label class="ghost file-label">
+                <input id="fileInput" type="file" accept="audio/*" hidden />
+                Datei hochladen
+              </label>
+              <span class="local-pill">&#10003; DSGVO</span>
+            </div>
+            <div class="local-info">
+              <div>
+                <strong>So funktioniert es</strong>
+                <p class="hint">
+                  1. Aufnahme starten oder Datei hochladen.
+                  2. Transkript pruefen.
+                  3. Minutes direkt ansehen, exportieren oder senden.
+                </p>
+              </div>
+              <div class="local-icon" aria-hidden="true">&#10022;</div>
+            </div>
+            <div id="audioCard" class="audio-card hidden">
+              <div>
+                <p class="eyebrow">Aktuelle Aufnahme</p>
+                <p class="hint">Hoere die Quelle kurz an, bevor du sie weiterverarbeitest.</p>
+              </div>
+              <audio id="audioPlayer" controls preload="none"></audio>
+            </div>
+            <div class="progress-card">
+              <div class="progress-header">
+                <p class="eyebrow">Verarbeitung</p>
+                <span id="progressLabel">Bereit</span>
+              </div>
+              <p id="progressRuntime" class="hint hidden">Verarbeitungszeit: 00:00</p>
+              <p id="asyncJobStatus" class="hint async-job-status hidden"></p>
+              <div class="progress-bar">
+                <div id="progressFill"></div>
+              </div>
+              <ul id="workflowSteps" class="workflow-steps"></ul>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="transcript-header">
+              <h2>Transkript</h2>
+              <div id="transcriptSpeakerControls" class="transcript-speaker-controls hidden">
+                <label class="speaker-toggle" for="transcriptSpeakerToggle">
+                  <input id="transcriptSpeakerToggle" type="checkbox" checked />
+                  <span>Sprechererkennung</span>
+                </label>
+              </div>
+            </div>
+            <p id="transcriptSpeakerHint" class="hint transcript-speaker-hint hidden">
+              Wenn die Sprechererkennung aktiv ist, kannst du Sprecher anhoeren und benennen.
+            </p>
+            <div id="transcript" class="transcript"></div>
+            <section id="speakerPanel" class="speaker-panel hidden">
+              <div class="speaker-panel-header">
+                <h3>Sprecher benennen</h3>
+                <p class="hint">
+                  Passe die erkannten Sprecher nach der Analyse an. Aenderungen erscheinen sofort im Transkript und in den Minutes.
+                </p>
+              </div>
+              <div id="speakerEditor" class="speaker-editor"></div>
+            </section>
+          </section>
+
+          <section class="panel minutes-pane">
+            <div class="minutes-header">
+              <h2>Minutes</h2>
+              <div class="minutes-actions">
+                <button id="editMinutesBtn" class="ghost" type="button" disabled>Bearbeiten</button>
+                <button id="downloadBtn" class="ghost" type="button" disabled>Exportieren</button>
+                <button id="sendBtn" class="primary" type="button" disabled>Senden</button>
+              </div>
+            </div>
+            <div id="minutes" class="summary-card minutes-card">
+              Lade eine Aufnahme hoch, um automatisch Agenda, Entscheidungen,
+              Action Items und Risiken erstellen zu lassen.
+            </div>
+          </section>
+
+        </section>
+      </section>
+    </main>
+
+    <div id="roomModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="roomModalTitle">
+      <div class="modal-content">
+        <button id="roomModalClose" class="modal-close" aria-label="Popup schliessen">&times;</button>
+        <p class="eyebrow">Meeting versenden</p>
+        <h3 id="roomModalTitle">Raum auswaehlen</h3>
+        <p class="hint">Waehle den Raum, in dem das Meeting stattgefunden hat.</p>
+        <div class="room-options">
+          <label class="room-option">
+            <input type="radio" name="sendTarget" value="E01-115 SWS" checked />
+            <span>E01-115 SWS</span>
+          </label>
+          <label class="room-option">
+            <input type="radio" name="sendTarget" value="E02-215 IB" />
+            <span>E02-215 IB</span>
+          </label>
+          <label class="room-option">
+            <input type="radio" name="sendTarget" value="E03-302 TV" />
+            <span>E03-302 TV</span>
+          </label>
+          <label class="room-option">
+            <input type="radio" name="sendTarget" value="E03-301 Beamer" />
+            <span>E03-301 Beamer</span>
+          </label>
+          <label class="room-option">
+            <input type="radio" name="sendTarget" value="E00-01 Kreativraum" />
+            <span>E00-01 Kreativraum</span>
+          </label>
+        </div>
+        <label class="room-option notify-option">
+          <input id="notifyActionItemsToggle" type="checkbox" checked />
+          <span>Action Items an Owner senden (auch externe Personen)</span>
+        </label>
+        <section id="actionItemNotifyDetails" class="minutes-repeatable-group hidden">
+          <div class="minutes-repeatable-header">
+            <h3>Owner & Aufgaben</h3>
+            <p class="hint">E-Mail-Adresse und Entwurf pro Aufgabe anpassbar.</p>
+          </div>
+          <div id="actionItemNotifyList" class="meeting-list">
+            <p class="hint">Keine Action Items erkannt.</p>
+          </div>
+        </section>
+        <div class="modal-actions">
+          <button id="roomModalCancel" class="ghost">Abbrechen</button>
+          <button id="confirmSendBtn" class="primary">Jetzt senden</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="actionItemDraftModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="actionItemDraftTitle">
+      <div class="modal-content">
+        <button id="actionItemDraftClose" class="modal-close" aria-label="Popup schliessen">&times;</button>
+        <p class="eyebrow">E-Mail-Entwurf</p>
+        <h3 id="actionItemDraftTitle">Aufgaben-Mail anpassen</h3>
+        <p id="actionItemDraftMeta" class="hint"></p>
+        <label class="minutes-field">
+          <span>KI-Entwurf (bearbeitbar)</span>
+          <textarea id="actionItemDraftText" rows="12"></textarea>
+        </label>
+        <div class="modal-actions">
+          <button id="actionItemDraftCancel" class="ghost">Abbrechen</button>
+          <button id="actionItemDraftSave" class="primary">Übernehmen</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+
+    <script src="release-popup.js?v=20260526a"></script>
+    <script type="module" src="app.js?v=20260415a"></script>
+  </body>
+</html>

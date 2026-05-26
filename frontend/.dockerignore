@@ -1,0 +1,5 @@
+node_modules/
+dist/
+validate/
+.git/
+.DS_Store

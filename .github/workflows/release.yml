@@ -1,0 +1,82 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version-Tag ohne führendes v (z.B. 1.2.3). Leer = aus RELEASE.json."
+        required: false
+        default: ""
+
+env:
+  REGISTRY: ghcr.io
+  OWNER_LOWER: ${{ github.repository_owner }}
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Resolve version
+        id: meta
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "${{ github.event_name }}" == "push" ]]; then
+            VERSION="${GITHUB_REF_NAME#v}"
+          elif [[ -n "${{ github.event.inputs.version }}" ]]; then
+            VERSION="${{ github.event.inputs.version }}"
+          else
+            VERSION=$(python3 -c "import json;print(json.load(open('RELEASE.json'))['version'])")
+          fi
+          OWNER_LOWER=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+          echo "owner=${OWNER_LOWER}" >> "$GITHUB_OUTPUT"
+          echo "backend_image=ghcr.io/${OWNER_LOWER}/ai-meeting-backend" >> "$GITHUB_OUTPUT"
+          echo "frontend_image=ghcr.io/${OWNER_LOWER}/ai-meeting-frontend" >> "$GITHUB_OUTPUT"
+
+      - name: Set up Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build & push backend
+        uses: docker/build-push-action@v6
+        with:
+          context: ./backend
+          file: backend/Dockerfile
+          push: true
+          build-contexts: |
+            release-info=.
+          tags: |
+            ${{ steps.meta.outputs.backend_image }}:${{ steps.meta.outputs.version }}
+            ${{ steps.meta.outputs.backend_image }}:latest
+
+      - name: Build & push frontend
+        uses: docker/build-push-action@v6
+        with:
+          context: ./frontend
+          push: true
+          tags: |
+            ${{ steps.meta.outputs.frontend_image }}:${{ steps.meta.outputs.version }}
+            ${{ steps.meta.outputs.frontend_image }}:latest
+
+      - name: Summary
+        run: |
+          echo "## Release ${{ steps.meta.outputs.version }} pushed" >> $GITHUB_STEP_SUMMARY
+          echo "- ${{ steps.meta.outputs.backend_image }}:${{ steps.meta.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+          echo "- ${{ steps.meta.outputs.frontend_image }}:${{ steps.meta.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+          echo "Watchtower-Deployments aktualisieren sich automatisch innerhalb von WATCHTOWER_POLL_INTERVAL Sekunden." >> $GITHUB_STEP_SUMMARY

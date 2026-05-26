@@ -1,0 +1,513 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Aurora AI | KI-Meetingprotokoll. Lokal. DSGVO-konform.</title>
+    <meta
+      name="description"
+      content="Aurora AI verwandelt Meetings automatisch in strukturierte Protokolle mit Entscheidungen, Action Items und Verantwortlichen. On-premise, DSGVO-konform, sofort einsatzbereit."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Sora:wght@500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="ambient ambient-left" aria-hidden="true"></div>
+    <div class="ambient ambient-right" aria-hidden="true"></div>
+
+    <div class="pilot-banner">
+      <span class="pilot-dot"></span>
+      Pilotangebot: <strong>5 Stunden gratis</strong> — endet in <strong id="countdown"></strong>
+      <a href="#kontakt">Jetzt bewerben &rarr;</a>
+    </div>
+
+    <header class="hero section reveal">
+      <nav class="topbar">
+        <div class="logo">Aurora AI</div>
+        <div class="nav-links">
+          <a class="nav-link" href="#problem">Das Problem</a>
+          <a class="nav-link" href="#produkt">Produkt</a>
+          <a class="nav-link" href="#pakete">Pakete</a>
+        </div>
+        <a class="btn btn-primary btn-sm" href="#kontakt">Pilotkunde werden</a>
+      </nav>
+
+      <div class="hero-grid">
+        <div>
+          <p class="eyebrow">KI-Meetingprotokoll · Lokal · DSGVO-konform</p>
+          <h1>Meeting aufnehmen. Protokoll fertig. Null Nacharbeit.</h1>
+          <p class="lead">
+            Aurora AI hört zu, strukturiert automatisch und erstellt Protokolle
+            mit Entscheidungen, Action Items und klaren Verantwortlichkeiten —
+            in Minuten, nicht in Stunden. Keine Notizzettel, kein
+            Interpretationschaos, keine verlorenen To-dos.
+          </p>
+          <div class="cta-row">
+            <a class="btn btn-primary" href="#kontakt">Jetzt Pilotkunde werden</a>
+            <a class="btn btn-ghost" href="#produkt">Produkt ansehen</a>
+          </div>
+        </div>
+
+        <aside class="hero-card">
+          <p class="card-title">Was du sofort hast</p>
+          <ul>
+            <li>Vollständiges Protokoll in wenigen Minuten</li>
+            <li>Action Items mit Owner und Fälligkeit</li>
+            <li>Daten bleiben bei dir — lokal oder Azure</li>
+          </ul>
+          <div class="hero-badge">
+            <span class="badge-dot"></span>
+            Keine Abonnement-Falle. Kein Vendor Lock-in.
+          </div>
+        </aside>
+      </div>
+    </header>
+
+    <main>
+
+      <!-- DATENSCHUTZ -->
+      <section class="section reveal" id="datenschutz">
+        <p class="eyebrow">Datenschutz & Sicherheit</p>
+        <h2>Deine Daten gehören dir. Nicht uns. Nicht der Cloud.</h2>
+        <p class="lead">Das größte Problem bei KI-Meeting-Tools: Deine Gespräche landen auf US-Servern. Bei Aurora nicht.</p>
+
+        <div class="trust-grid">
+
+          <div class="trust-card">
+            <div class="trust-icon-wrap">
+              <svg class="trust-svg" viewBox="0 0 48 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M24 2L4 10v18c0 13 8.5 24.5 20 28 11.5-3.5 20-15 20-28V10L24 2z" fill="rgba(103,224,184,0.12)" stroke="#67e0b8" stroke-width="2" stroke-linejoin="round"/>
+                <path d="M15 28l7 7 11-13" stroke="#67e0b8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <h3>DSGVO-konform</h3>
+            <p>Aurora wurde für den europäischen Datenschutz entwickelt. Keine versteckten Datenflüsse, keine Weitergabe an Dritte, vollständige Transparenz.</p>
+            <ul class="trust-list">
+              <li>Kein Verkauf von Gesprächsdaten</li>
+              <li>Löschung auf Anfrage jederzeit</li>
+              <li>Verarbeitungsverzeichnis auf Anfrage</li>
+            </ul>
+          </div>
+
+          <div class="trust-card trust-card--eu">
+            <div class="trust-icon-wrap">
+              <svg class="trust-svg trust-svg--flag" viewBox="0 0 90 60" xmlns="http://www.w3.org/2000/svg">
+                <rect width="90" height="60" rx="5" fill="#003399"/>
+                <g fill="#FFCC00" font-size="7.5" text-anchor="middle" font-family="serif">
+                  <text x="45" y="14">&#9733;</text>
+                  <text x="54.5" y="16.8">&#9733;</text>
+                  <text x="61.2" y="24">&#9733;</text>
+                  <text x="63" y="33">&#9733;</text>
+                  <text x="61.2" y="42">&#9733;</text>
+                  <text x="54.5" y="49.2">&#9733;</text>
+                  <text x="45" y="52">&#9733;</text>
+                  <text x="35.5" y="49.2">&#9733;</text>
+                  <text x="28.8" y="42">&#9733;</text>
+                  <text x="27" y="33">&#9733;</text>
+                  <text x="28.8" y="24">&#9733;</text>
+                  <text x="35.5" y="16.8">&#9733;</text>
+                </g>
+              </svg>
+            </div>
+            <h3>Verarbeitung in der EU</h3>
+            <p>Beim Basic-Paket läuft die KI ausschließlich über <strong>Azure-Rechenzentren in Europa</strong>. Deine Meeting-Daten verlassen nie die EU.</p>
+            <ul class="trust-list">
+              <li>Azure Region: West Europe / North Europe</li>
+              <li>Kein Datentransfer in die USA</li>
+              <li>EU-Standardvertragsklauseln</li>
+            </ul>
+          </div>
+
+          <div class="trust-card trust-card--local">
+            <div class="trust-icon-wrap">
+              <div class="local-diagram">
+                <div class="local-node">
+                  <svg viewBox="0 0 32 24" fill="none" width="36">
+                    <rect x="1" y="1" width="30" height="18" rx="2" stroke="#67e0b8" stroke-width="1.5" fill="rgba(103,224,184,0.08)"/>
+                    <rect x="8" y="19" width="16" height="2" rx="1" fill="#67e0b8" opacity=".5"/>
+                    <rect x="4" y="4" width="24" height="11" rx="1" fill="rgba(103,224,184,0.15)"/>
+                  </svg>
+                  <span class="local-label">Meeting</span>
+                </div>
+                <div class="local-arrow-line">
+                  <span class="local-arrow-shaft"></span>
+                  <span class="local-arrow-tip">&#9658;</span>
+                </div>
+                <div class="local-node">
+                  <svg viewBox="0 0 28 36" fill="none" width="30">
+                    <rect x="1" y="1" width="26" height="34" rx="3" stroke="#67e0b8" stroke-width="1.5" fill="rgba(103,224,184,0.08)"/>
+                    <rect x="5" y="6" width="18" height="3" rx="1" fill="#67e0b8" opacity=".6"/>
+                    <rect x="5" y="12" width="18" height="3" rx="1" fill="#67e0b8" opacity=".4"/>
+                    <rect x="5" y="18" width="18" height="3" rx="1" fill="#67e0b8" opacity=".25"/>
+                    <circle cx="21" cy="7.5" r="1.5" fill="#67e0b8"/>
+                    <circle cx="21" cy="13.5" r="1.5" fill="#67e0b8" opacity=".5"/>
+                  </svg>
+                  <span class="local-label">Ihr Server</span>
+                </div>
+                <div class="local-blocked">
+                  <svg viewBox="0 0 32 24" fill="none" width="32">
+                    <path d="M6 14c0-5.5 4-9 10-9s10 3.5 10 9" stroke="#ff5f5f" stroke-width="1.5" opacity=".5"/>
+                    <path d="M4 18h24M4 10l24 12" stroke="#ff5f5f" stroke-width="1.5" stroke-linecap="round" opacity=".6"/>
+                  </svg>
+                  <span class="local-label local-label--blocked">Kein Cloud-Zugriff</span>
+                </div>
+              </div>
+            </div>
+            <h3>100% lokal möglich</h3>
+            <p>Pro-Paket: Keine Cloud, kein Internet, keine Abhängigkeit. Alles läuft auf <strong>deiner eigenen Hardware in deinem Netzwerk</strong>.</p>
+            <ul class="trust-list">
+              <li>Deployment per Docker — vollständig isoliert</li>
+              <li>Kein einziges Byte verlässt dein Netzwerk</li>
+              <li>Ideal für Produktion, Recht, Gesundheit</li>
+            </ul>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- PROBLEM -->
+      <section class="section reveal" id="problem">
+        <p class="eyebrow">Das Problem</p>
+        <h2>Warum Meetings scheitern — und was das kostet.</h2>
+
+        <div class="compare-block">
+          <p class="compare-label compare-label--problem">Ohne Aurora</p>
+          <p class="compare-sub">Stunden Nacharbeit, verlorene Entscheidungen, niemand weiß wer was tun soll</p>
+          <div class="gallery-grid">
+            <figure class="gallery-card gallery-card-large">
+              <img
+                src="https://images.unsplash.com/photo-1698047681465-a75bcf38379e?auto=format&fit=crop&w=1600&q=80"
+                alt="Erschöpfte Mitarbeiterin am Laptop – Burnout durch Meeting-Overload"
+                loading="lazy"
+              />
+              <figcaption>Stunden im Meeting. Nichts davon verwertbar.</figcaption>
+            </figure>
+            <figure class="gallery-card">
+              <img
+                src="https://images.unsplash.com/photo-1631651693480-97f1132e333d?auto=format&fit=crop&w=1200&q=80"
+                alt="Verstreute Notizen auf dem Tisch – unstrukturierte Meeting-Protokolle"
+                loading="lazy"
+              />
+              <figcaption>Handnotizen, die niemand mehr findet</figcaption>
+            </figure>
+            <figure class="gallery-card">
+              <img
+                src="https://images.unsplash.com/photo-1735639013995-086e648eaa38?auto=format&fit=crop&w=1200&q=80"
+                alt="Wand voller bunter Haftnotizen – kein System, kein Überblick"
+                loading="lazy"
+              />
+              <figcaption>Kein System. Kein Überblick.</figcaption>
+            </figure>
+          </div>
+        </div>
+
+        <div class="compare-block">
+          <p class="compare-label compare-label--solution">Mit Aurora</p>
+          <p class="compare-sub">Strukturiertes Protokoll, klare Verantwortung, sofortige Umsetzung</p>
+          <div class="gallery-grid">
+            <figure class="gallery-card gallery-card-large">
+              <img
+                src="https://images.unsplash.com/photo-1758873268695-1b55590e507a?auto=format&fit=crop&w=1600&q=80"
+                alt="Diverses Team diskutiert am Bildschirm – strukturierte digitale Meeting-Auswertung"
+                loading="lazy"
+              />
+              <figcaption>Alle sehen dasselbe — sofort nach dem Meeting</figcaption>
+            </figure>
+            <figure class="gallery-card">
+              <img
+                src="https://images.unsplash.com/photo-1758518731706-be5d5230e5a5?auto=format&fit=crop&w=1200&q=80"
+                alt="Geschäftsleute besprechen klare Projektergebnisse"
+                loading="lazy"
+              />
+              <figcaption>Entscheidungen schwarz auf weiß</figcaption>
+            </figure>
+            <figure class="gallery-card">
+              <img
+                src="https://images.unsplash.com/photo-1758519288814-bb9f97e4df95?auto=format&fit=crop&w=1200&q=80"
+                alt="Zwei Kollegen prüfen strukturierte Minutes am Laptop"
+                loading="lazy"
+              />
+              <figcaption>Action Items sofort verteilt</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <!-- PRODUKT -->
+      <section class="section" id="produkt">
+        <p class="eyebrow">Das Produkt</p>
+        <h2>Einmal aufnehmen. Das hier entsteht automatisch.</h2>
+        <p class="lead">Sieh selbst, was Aurora aus einem echten Meeting-Gespräch macht — in Sekunden, ohne manuellen Aufwand.</p>
+
+        <div class="bam-shell" id="bamShell">
+          <div class="bam-input-row bam-item">
+            <div class="bam-input-chip">
+              <span class="bam-mic-dot"></span>
+              Kickoff_Produktlaunch_Q1.mp3
+            </div>
+            <span class="bam-arrow">&#8594;</span>
+            <span class="bam-processing">Aurora verarbeitet&hellip;</span>
+            <span class="bam-done">Protokoll fertig</span>
+          </div>
+
+          <div class="bam-window">
+            <div class="bam-topbar">
+              <span class="bam-brand">Minutes</span>
+              <div class="bam-controls">
+                <button class="bam-ctrl">Protokoll bearbeiten</button>
+                <button class="bam-ctrl">Exportieren</button>
+                <button class="bam-ctrl bam-ctrl--primary">Senden</button>
+              </div>
+            </div>
+
+            <div class="bam-content">
+
+              <div class="bam-card bam-item">
+                <p class="bam-label">Kurzzusammenfassung</p>
+                <p class="bam-text">Im Kickoff-Meeting wurde der Fahrplan für den Produktlaunch der Spring Edition festgelegt. Release-Datum, Marketingbudget und Verantwortlichkeiten wurden verbindlich abgestimmt. Der Vertrieb erhält zwei Wochen vor Launch ein exklusives Pre-Sales-Briefing.</p>
+              </div>
+
+              <div class="bam-grid-2">
+                <div class="bam-card bam-item">
+                  <p class="bam-label">Agenda</p>
+                  <ul class="bam-ul">
+                    <li>Release-Datum und Roadmap-Review</li>
+                    <li>Marketingbudget und Kampagnenstrategie</li>
+                    <li>Vertriebsbriefing und Pre-Sales-Phase</li>
+                    <li>Technische Freigabe und QA-Status</li>
+                  </ul>
+                </div>
+                <div class="bam-card bam-item">
+                  <p class="bam-label">Highlights</p>
+                  <ul class="bam-ul">
+                    <li>Release-Datum 18. März ist verbindlich gesetzt.</li>
+                    <li>Marketingbudget von 45.000 &euro; wurde freigegeben.</li>
+                    <li>CTO gibt grünes Licht für technische Freigabe.</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="bam-grid-2">
+                <div class="bam-card bam-item">
+                  <p class="bam-label">Entscheidungen</p>
+                  <div class="bam-decision">
+                    <strong>Release-Datum: 18. März (verbindlich)</strong>
+                    <p class="bam-text bam-text--mt">Das Datum gilt als gesetzt. Verschiebungen erfordern CEO-Freigabe.</p>
+                  </div>
+                  <div class="bam-decision">
+                    <strong>Pre-Sales-Phase startet am 4. März</strong>
+                    <p class="bam-text bam-text--mt">Vertrieb erhält zwei Wochen vor Launch exklusiven Zugang zu Demo und Deck.</p>
+                  </div>
+                </div>
+                <div class="bam-card bam-card--highlight bam-item">
+                  <p class="bam-label">Action Items</p>
+                  <div class="bam-action-item">
+                    <strong>Kampagnenbriefing an Agentur senden.</strong>
+                    <span class="bam-owner">Owner: Anna (Marketing) &mdash; bis 20. Januar</span>
+                  </div>
+                  <div class="bam-action-item" style="margin-top:0.7rem">
+                    <strong>Sales-Deck fertigstellen und intern abstimmen.</strong>
+                    <span class="bam-owner">Owner: Tobias (Vertrieb) &mdash; bis 28. Januar</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bam-card bam-item">
+                <p class="bam-label">Risiken &amp; offene Punkte</p>
+                <ul class="bam-ul">
+                  <li>QA-Phase könnte sich um eine Woche verschieben, falls neue Bugs in Sprint&nbsp;4 auftauchen.</li>
+                  <li>Agentur-Kapazität für Kampagnenproduktion bis Anfang März noch nicht bestätigt.</li>
+                </ul>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="feature-trio">
+          <div class="feature-trio-card bam-item">
+            <div class="feature-trio-num">01</div>
+            <h3>Bearbeiten</h3>
+            <p>Jeden Abschnitt anpassen, ergänzen oder kürzen — direkt im Browser, bevor das Protokoll rausgeht.</p>
+          </div>
+          <div class="feature-trio-card bam-item">
+            <div class="feature-trio-num">02</div>
+            <h3>Exportieren</h3>
+            <p>Fertige Protokolle als PDF oder Word-Dokument herunterladen — in Sekunden, ohne Extraschritte.</p>
+          </div>
+          <div class="feature-trio-card bam-item">
+            <div class="feature-trio-num">03</div>
+            <h3>Direkt senden</h3>
+            <p>Per E-Mail an Einzelpersonen oder den kompletten Verteiler — ohne Umweg über dein Mailprogramm.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- PAKETE -->
+      <section class="section reveal" id="pakete">
+        <p class="eyebrow">Pakete</p>
+        <h2>Wähle das Kontingent, das zu deinem Team passt.</h2>
+
+        <div class="plans plans-3">
+          <article class="plan plan-basic">
+            <p class="plan-tag">Starter</p>
+            <h3>Für kleine Teams</h3>
+            <div class="plan-price">
+              <span class="price-main">19 €</span>
+              <span class="price-period">/ Monat</span>
+            </div>
+            <p class="plan-hours">5 Stunden Meeting-Audio / Monat</p>
+            <ul>
+              <li>Azure-Anbindung für KI-Services</li>
+              <li>Vollständiges Protokoll inkl. Action Items</li>
+              <li>Bearbeiten, Exportieren, Senden</li>
+              <li>Windows-Installation</li>
+            </ul>
+            <a class="btn btn-primary" href="#kontakt">Starter anfragen</a>
+          </article>
+
+          <article class="plan plan-team">
+            <p class="plan-tag">Team</p>
+            <h3>Für aktive Teams</h3>
+            <div class="plan-price">
+              <span class="price-main">49 €</span>
+              <span class="price-period">/ Monat</span>
+            </div>
+            <p class="plan-hours">15 Stunden Meeting-Audio / Monat</p>
+            <ul>
+              <li>Alles aus Starter</li>
+              <li>Priorität bei Support</li>
+              <li>Mehrere Nutzer</li>
+              <li>Einführungsschulung inklusive</li>
+            </ul>
+            <a class="btn btn-primary" href="#kontakt">Team anfragen</a>
+          </article>
+
+          <article class="plan plan-business">
+            <p class="plan-tag">Business</p>
+            <h3>Für intensive Nutzer</h3>
+            <div class="plan-price">
+              <span class="price-main">89 €</span>
+              <span class="price-period">/ Monat</span>
+            </div>
+            <p class="plan-hours">30 Stunden Meeting-Audio / Monat</p>
+            <ul>
+              <li>Alles aus Team</li>
+              <li>Unbegrenzte Nutzer</li>
+              <li>Individuelle Anpassungen</li>
+              <li>Monatlicher Review-Call</li>
+            </ul>
+            <a class="btn btn-primary" href="#kontakt">Business anfragen</a>
+          </article>
+        </div>
+
+        <p class="plans-note">Monatlich kündbar, keine Mindestlaufzeit.</p>
+
+        <div class="plan-enterprise">
+          <div class="plan-enterprise-content">
+            <div>
+              <p class="plan-tag plan-tag--pro">Pro — Lokal</p>
+              <h3>Maximale Kontrolle — komplett lokal</h3>
+              <p class="plan-copy">Für Unternehmen mit strengen Compliance-Anforderungen: alles auf deiner eigenen Hardware, containerisiert mit Docker. Keine Daten verlassen dein Netzwerk, keine laufenden Azure-Kosten, unbegrenzte Stunden.</p>
+            </div>
+            <div class="plan-enterprise-right">
+              <div class="plan-price">
+                <span class="price-main">690 €</span>
+                <span class="price-period">Einmalig</span>
+              </div>
+              <p class="plan-hours">Unbegrenzte Stunden · Optional 49 €/Monat Support</p>
+              <a class="btn btn-primary" href="#kontakt">Pro anfragen</a>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- KONTAKT -->
+      <section class="section section-contact reveal" id="kontakt">
+        <p class="eyebrow">Pilotprogramm — läuft ab 31. August 2026</p>
+        <h2>Werde einer von 10 Pilotpartnern.</h2>
+        <p>
+          Wir suchen Teams, die Aurora AI als erste einsetzen wollen.
+          Du startest mit <strong>5 Stunden Meeting-Audio kostenlos</strong> — danach
+          transparent und fair nach Verbrauch. Volle Einrichtung, persönliche
+          Begleitung, direkter Draht zum Entwickler.
+        </p>
+        <div class="contact-perks">
+          <span class="perk">5 Stunden gratis zum Start</span>
+          <span class="perk">Kostenlose Einrichtung</span>
+          <span class="perk">Persönliches Onboarding</span>
+          <span class="perk">Direkter Feedback-Kanal</span>
+        </div>
+        <div class="contact-deadline">
+          <span class="deadline-label">Angebot endet in</span>
+          <span class="deadline-count" id="countdown2"></span>
+        </div>
+        <a class="btn btn-primary" href="mailto:kontakt@aurora-ai.de">Jetzt Kontakt aufnehmen</a>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>© <span id="year"></span> Aurora AI &nbsp;·&nbsp; Alle Rechte vorbehalten &nbsp;·&nbsp; <a href="mailto:kontakt@aurora-ai.de" class="footer-link">kontakt@aurora-ai.de</a></p>
+    </footer>
+
+    <script>
+      const reveals = document.querySelectorAll('.reveal');
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+              io.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.15 }
+      );
+      reveals.forEach((el) => io.observe(el));
+
+      document.querySelectorAll('#produkt .bam-item').forEach((el) => {
+        const obs = new IntersectionObserver(
+          (entries) => {
+            if (entries[0].isIntersecting) {
+              el.classList.add('bam-visible');
+              obs.unobserve(el);
+            }
+          },
+          { threshold: 0.35 }
+        );
+        obs.observe(el);
+      });
+
+      document.getElementById('year').textContent = new Date().getFullYear();
+
+      function updateCountdown() {
+        const deadline = new Date('2026-08-31T23:59:59');
+        const now = new Date();
+        const diff = deadline - now;
+        if (diff <= 0) {
+          ['countdown', 'countdown2'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.textContent = 'abgelaufen';
+          });
+          return;
+        }
+        const d = Math.floor(diff / 86400000);
+        const h = Math.floor((diff % 86400000) / 3600000);
+        const m = Math.floor((diff % 3600000) / 60000);
+        const text = d + ' Tagen ' + h + ' Std. ' + m + ' Min.';
+        ['countdown', 'countdown2'].forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.textContent = text;
+        });
+      }
+      updateCountdown();
+      setInterval(updateCountdown, 30000);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aurora Login</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Outfit:wght@500;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="config.js?v=20260415a"></script>
+    <script>
+      (function () {
+        var cfg = window.__APP_CONFIG__ || {};
+        var t = cfg.UI_THEME || localStorage.getItem("app-theme") || "aurora";
+        document.documentElement.dataset.theme = t;
+        if (t === "meetingai") document.title = "Meeting AI Login";
+      })();
+    </script>
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="hero">
+        <div class="brand-intro">
+          <div class="brand-mark theme-aurora" aria-hidden="true">A</div>
+          <img class="brand-logo theme-meetingai" src="assets/roewaplan-logo.png" alt="RÖWAPLAN" />
+          <p class="eyebrow theme-aurora">Aurora</p>
+          <p class="eyebrow theme-meetingai">Meeting AI</p>
+          <h1>Persönlicher Bereich für Meetings</h1>
+          <p class="theme-aurora">
+            Melde dich an, um deine eigenen Meetings aufzunehmen, wiederzufinden und Automatisierungen zu nutzen.
+          </p>
+          <p class="theme-meetingai">
+            Melde dich an, um deine eigenen Meetings aufzunehmen, wiederzufinden und Automatisierungen zu nutzen.
+          </p>
+        </div>
+        <div class="hero-card">
+          <p class="hero-label">Sicherer Zugang</p>
+          <p id="loginStatusText" role="status" aria-live="polite">Bitte anmelden</p>
+          <span id="loginStatusBadge" class="hero-chip hero-chip-soft">Nicht angemeldet</span>
+        </div>
+      </header>
+
+      <section class="panel">
+        <div class="meeting-detail-header">
+          <h2>Login</h2>
+        </div>
+        <form id="authForm" class="settings-grid">
+          <label class="settings-field">
+            <span>Modus</span>
+            <select id="authMode">
+              <option value="login" selected>Anmelden</option>
+              <option value="register">Registrieren</option>
+            </select>
+          </label>
+          <label id="authNameField" class="settings-field hidden">
+            <span>Name</span>
+            <input id="authNameInput" type="text" autocomplete="name" placeholder="Max Mustermann" />
+          </label>
+          <label class="settings-field">
+            <span>E-Mail</span>
+            <input id="authEmailInput" type="email" autocomplete="username" placeholder="name@firma.de" required />
+          </label>
+          <label class="settings-field">
+            <span>Passwort</span>
+            <input id="authPasswordInput" type="password" autocomplete="current-password" placeholder="Mindestens 8 Zeichen" required />
+          </label>
+          <div class="settings-actions">
+            <button id="authSubmitBtn" class="primary" type="submit">Anmelden</button>
+          </div>
+        </form>
+      </section>
+    </main>
+
+    <script type="module" src="login.js?v=20260526a"></script>
+  </body>
+</html>

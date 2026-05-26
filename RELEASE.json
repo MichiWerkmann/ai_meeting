@@ -1,0 +1,24 @@
+{
+  "version": "1.0.0",
+  "date": "2026-05-26",
+  "title": "Aurora Minutes 1.0",
+  "subtitle": "Erste produktive Version mit Auto-Update",
+  "highlights": [
+    {
+      "icon": "sparkles",
+      "text": "Erste produktive Version von Aurora Minutes ist live."
+    },
+    {
+      "icon": "rocket",
+      "text": "Automatische Updates: neue Versionen werden auf allen Deployments selbstständig eingespielt."
+    },
+    {
+      "icon": "lock",
+      "text": "Reverse-Proxy mit TLS schützt die gesamte Kommunikation."
+    },
+    {
+      "icon": "party",
+      "text": "Release-Popup zeigt dir nach jedem Update, was sich geändert hat."
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Minutes Lab - Aurora Minutes</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../styles.css" />
+    <script>(function(){var cfg=window.__APP_CONFIG__||{};var t=localStorage.getItem('app-theme')||cfg.UI_THEME||'aurora';document.documentElement.dataset.theme=t;if(t==='meetingai')document.title='Minutes Lab - Meeting AI';})()</script>
+  </head>
+  <body>
+    <main class="app-shell lab-view">
+      <header class="hero">
+        <div class="brand-intro">
+          <div class="brand-mark theme-aurora" aria-hidden="true">A</div>
+          <img class="brand-logo theme-meetingai" src="../assets/roewaplan-logo.png" alt="RÖWAPLAN" />
+          <p class="eyebrow">Minutes Lab</p>
+          <h1>Validiere deine Minutes-Vorhersagen</h1>
+          <p class="theme-aurora">
+            Erstelle Testzeilen, lass sie klassifizieren und prüfe sofort die
+            generierten Minutes in derselben Aurora-Oberfläche.
+          </p>
+          <p class="theme-meetingai">
+            Erstelle Testzeilen, lass sie klassifizieren und prüfe sofort die
+            generierten Minutes in derselben Meeting AI-Oberfläche.
+          </p>
+        </div>
+        <div class="hero-card">
+          <p class="hero-label">Hinweis</p>
+          <p>Alle Daten bleiben lokal auf deinem Server.</p>
+          <span class="local-pill">100 % on-prem</span>
+        </div>
+      </header>
+
+      <section class="panel lab-panel">
+        <div class="lab-header">
+          <div>
+            <h2>Testtabelle</h2>
+            <p class="hint">Füge beliebige Zeilen Text hinzu. Ein Sprecherfeld ist nicht notwendig.</p>
+          </div>
+          <div class="lab-controls">
+            <button id="labAddRow" class="ghost">Zeile hinzufügen</button>
+            <button id="labRun" class="primary">Vorhersage testen</button>
+          </div>
+        </div>
+        <div class="lab-table-wrapper">
+          <table class="lab-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Text</th>
+                <th>Vorhersage</th>
+              </tr>
+            </thead>
+            <tbody id="labTableBody"></tbody>
+          </table>
+        </div>
+        <div id="labMinutes" class="summary-card minutes-card lab-minutes-card">
+          <p class="hint">Noch keine Testdaten verarbeitet.</p>
+        </div>
+      </section>
+    </main>
+
+    <script src="../config.js"></script>
+    <script type="module" src="lab.js"></script>
+  </body>
+</html>

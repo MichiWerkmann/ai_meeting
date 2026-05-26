@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aurora Minutes Einstellungen</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="config.js"></script>
+    <script>(function(){var cfg=window.__APP_CONFIG__||{};var t=cfg.UI_THEME||localStorage.getItem('app-theme')||'aurora';document.documentElement.dataset.theme=t;if(t==='meetingai')document.title='Meeting AI Einstellungen';})()</script>
+    <script>
+      // Admin-Passwortschutz – wird vor dem Laden der Seite ausgeführt
+      (function () {
+        var ADMIN_PW = "aurora-admin";
+        var SESSION_KEY = "aurora_admin_ok";
+        if (sessionStorage.getItem(SESSION_KEY) !== "1") {
+          var pw = prompt("Admin-Passwort eingeben:");
+          if (pw !== ADMIN_PW) {
+            document.write("<p style='font-family:sans-serif;padding:2rem'>Zugriff verweigert.</p>");
+            setTimeout(function () { window.location.replace("index.html"); }, 2000);
+            throw new Error("Zugriff verweigert");
+          }
+          sessionStorage.setItem(SESSION_KEY, "1");
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <main class="app-shell settings-shell">
+      <header class="hero settings-hero">
+        <a class="icon-link back-link" href="index.html" aria-label="Zurueck zur Hauptseite">
+          <span aria-hidden="true">&#8592;</span>
+        </a>
+        <div class="brand-intro">
+          <div class="brand-mark theme-aurora" aria-hidden="true">A</div>
+          <img class="brand-logo theme-meetingai" src="assets/roewaplan-logo.png" alt="RÖWAPLAN" />
+          <p class="eyebrow theme-aurora">Aurora Control</p>
+          <p class="eyebrow theme-meetingai">Meeting AI Control</p>
+          <h1>Modelle, Hardware und Laufzeit feinjustieren</h1>
+          <p>
+            Konfiguriere Transkription, Sprechertrennung und LLM-Auswertung
+            getrennt voneinander fuer die laufende Verarbeitung.
+          </p>
+        </div>
+        <div class="hero-card">
+          <p class="hero-label">Konfiguration</p>
+          <p id="settingsStatus">Lade aktuelle Modellkonfiguration ...</p>
+          <span>Runtime aktiv</span>
+        </div>
+      </header>
+
+      <section class="panel">
+        <div class="hardware-card">
+          <div class="hardware-card-header">
+            <div>
+              <p class="eyebrow">Hardware</p>
+              <h2>Leistung und Empfehlung</h2>
+            </div>
+            <span id="hardwareBadge" class="hardware-badge hardware-badge-neutral">Pruefung laeuft</span>
+          </div>
+          <div class="hardware-grid">
+            <div class="hardware-metric">
+              <span class="hardware-label">Ausfuehrung</span>
+              <strong id="hardwareDeviceValue">wird ermittelt ...</strong>
+            </div>
+            <div class="hardware-metric">
+              <span class="hardware-label">GPU-Speicher</span>
+              <strong id="hardwareMemoryValue">wird ermittelt ...</strong>
+            </div>
+            <div class="hardware-metric">
+              <span class="hardware-label">Empfohlener Modus</span>
+              <strong id="hardwareRecommendationValue">wird ermittelt ...</strong>
+            </div>
+          </div>
+          <p id="hardwareMessage" class="hardware-message">
+            Hardwareprofil wird geladen ...
+          </p>
+        </div>
+
+        <form id="modelSettingsForm" class="settings-form">
+          <section class="settings-card settings-card-section">
+            <div class="settings-card-header">
+              <div>
+                <p class="eyebrow">Transkription</p>
+                <h2>Audio zu Text</h2>
+              </div>
+              <p class="hint settings-section-copy">
+                Provider, Laufzeitgeraet und API-Zugriff fuer die eigentliche Spracherkennung.
+              </p>
+            </div>
+
+            <div class="settings-grid">
+              <label class="settings-field" for="executionDeviceInput">
+                Ausfuehrungsgeraet
+                <select id="executionDeviceInput" name="execution_device">
+                  <option value="auto">Automatisch</option>
+                  <option value="cpu">CPU erzwingen</option>
+                  <option value="cuda">CUDA erzwingen</option>
+                </select>
+              </label>
+              <label class="settings-field" for="transcriptionProviderInput">
+                Transkriptionszugriff
+                <select id="transcriptionProviderInput" name="transcription_provider">
+                  <option value="local">Lokal mit WhisperX</option>
+                  <option value="azure_openai">Azure OpenAI Whisper API</option>
+                  <option value="azure_speech">Azure Speech-to-Text API</option>
+                </select>
+              </label>
+              <label id="whisperModelField" class="settings-field settings-field-full" for="whisperModelInput">
+                Whisper-Modell
+                <input id="whisperModelInput" name="whisper_model" type="text" placeholder="auto oder large-v3" />
+              </label>
+            </div>
+
+            <div class="settings-grid settings-grid-wide hidden" id="azureTranscriptionFields">
+              <label class="settings-field settings-field-full" for="azureTranscriptionEndpointInput">
+                Azure OpenAI Endpoint
+                <input id="azureTranscriptionEndpointInput" name="azure_transcription_endpoint" type="url" placeholder="https://&lt;resource&gt;.openai.azure.com" />
+              </label>
+              <label class="settings-field" for="azureTranscriptionDeploymentInput">
+                Azure Deployment
+                <input id="azureTranscriptionDeploymentInput" name="azure_transcription_deployment" type="text" placeholder="z. B. whisper-1" />
+              </label>
+              <label class="settings-field" for="azureTranscriptionApiVersionInput">
+                Azure API-Version
+                <input id="azureTranscriptionApiVersionInput" name="azure_transcription_api_version" type="text" placeholder="2024-02-01" />
+              </label>
+              <label class="settings-field settings-field-full" for="azureTranscriptionApiKeyInput">
+                Azure OpenAI API Key
+                <input id="azureTranscriptionApiKeyInput" name="azure_transcription_api_key" type="password" placeholder="Erforderlich fuer Azure OpenAI" autocomplete="off" />
+              </label>
+            </div>
+
+            <div class="settings-grid settings-grid-wide hidden" id="azureSpeechFields">
+              <label class="settings-field settings-field-full" for="azureSpeechApiKeyInput">
+                Azure Speech API Key
+                <input id="azureSpeechApiKeyInput" name="azure_speech_api_key" type="password" placeholder="Erforderlich fuer Azure Speech" autocomplete="off" />
+              </label>
+              <label class="settings-field" for="azureSpeechRegionInput">
+                Azure-Region
+                <input id="azureSpeechRegionInput" name="azure_speech_region" type="text" placeholder="germanywestcentral" />
+              </label>
+              <label class="settings-field" for="azureSpeechApiVersionInput">
+                Azure Speech API-Version
+                <input id="azureSpeechApiVersionInput" name="azure_speech_api_version" type="text" placeholder="2024-11-15" />
+              </label>
+              <label class="settings-field settings-field-full" for="azureSpeechLocalesInput">
+                Sprach-Locales
+                <input id="azureSpeechLocalesInput" name="azure_speech_locales" type="text" placeholder="z. B. de-DE,en-US (leer fuer Auto-Erkennung)" />
+              </label>
+              <label class="settings-field settings-field-full" for="azureSpeechEndpointInput">
+                Endpunkt-URL
+                <input id="azureSpeechEndpointInput" name="azure_speech_endpoint" type="url" placeholder="https://germanywestcentral.api.cognitive.microsoft.com/" />
+              </label>
+            </div>
+          </section>
+
+          <section class="settings-card settings-card-section">
+            <div class="settings-card-header">
+              <div>
+                <p class="eyebrow">Diarisierung</p>
+                <h2>Sprecher erkennen</h2>
+              </div>
+              <p class="hint settings-section-copy">
+                Einstellungen fuer Speaker Separation und die maximale Sprecheranzahl.
+                Wenn die Sprechererkennung deaktiviert ist, wird im Backend keine
+                Diarisierung ausgefuehrt und im UI keinerlei Sprecherinfo angezeigt.
+              </p>
+            </div>
+
+            <div class="settings-grid">
+              <label class="settings-field settings-field-full settings-field-toggle" for="speakerRecognitionEnabledInput">
+                <span class="settings-field-toggle-label">
+                  <span>Sprechererkennung aktivieren</span>
+                  <span class="hint">Steuert sowohl Backend-Diarisierung als auch die UI-Anzeige.</span>
+                </span>
+                <input id="speakerRecognitionEnabledInput" name="speaker_recognition_enabled" type="checkbox" />
+              </label>
+              <label id="diarizationModelField" class="settings-field" for="diarizationModelInput">
+                Diarisierungsmodell
+                <input id="diarizationModelInput" name="diarization_model" type="text" placeholder="pyannote/speaker-diarization-3.1" />
+              </label>
+              <label class="settings-field" for="azureSpeechMaxSpeakersInput">
+                Max. Sprecher
+                <input id="azureSpeechMaxSpeakersInput" name="azure_speech_max_speakers" type="number" min="1" step="1" placeholder="Nur fuer Azure Speech relevant" />
+              </label>
+            </div>
+          </section>
+
+          <section class="settings-card settings-card-section">
+            <div class="settings-card-header">
+              <div>
+                <p class="eyebrow">Oberfläche</p>
+                <h2>Funktionen aktivieren</h2>
+              </div>
+              <p class="hint settings-section-copy">
+                Steuert welche Funktionen auf der Hauptseite sichtbar sind.
+              </p>
+            </div>
+            <div class="settings-grid">
+              <label class="settings-field settings-field-full settings-field-toggle" for="sendEnabledInput">
+                <span class="settings-field-toggle-label">
+                  <span>Minutes-Versand aktivieren</span>
+                  <span class="hint">Zeigt den "Senden"-Button auf der Hauptseite an. Deaktivieren wenn kein Webhook konfiguriert ist.</span>
+                </span>
+                <input id="sendEnabledInput" name="send_enabled" type="checkbox" />
+              </label>
+              <label class="settings-field settings-field-full" for="themeSelect">
+                Design-Theme
+                <select id="themeSelect">
+                  <option value="aurora">Aurora (Standard)</option>
+                  <option value="meetingai">Meeting AI (RÖWAPLAN)</option>
+                </select>
+              </label>
+            </div>
+          </section>
+
+          <section class="settings-card settings-card-section">
+            <div class="settings-card-header">
+              <div>
+                <p class="eyebrow">LLM</p>
+                <h2>Minutes und Summary</h2>
+              </div>
+              <p class="hint settings-section-copy">
+                Provider, Modell und Zugriffswege fuer die strukturierte Meeting-Auswertung.
+              </p>
+            </div>
+
+            <div class="settings-grid">
+              <label class="settings-field" for="llmProviderInput">
+                LLM-Zugriff
+                <select id="llmProviderInput" name="llm_provider">
+                  <option value="azure_openai">Azure OpenAI Chat Completions</option>
+                  <option value="http">Optionale HTTP-API (OpenAI-kompatibel)</option>
+                </select>
+              </label>
+              <label class="settings-field" for="llmModelInput">
+                Minutes-Modell
+                <input id="llmModelInput" name="llm_model" type="text" placeholder="z. B. Qwen2.5-7B-Instruct oder gpt-4o-mini" />
+              </label>
+              <label class="settings-field settings-field-full" for="summaryModelInput">
+                Summary-Modell
+                <input id="summaryModelInput" name="summary_model" type="text" placeholder="Leer = nutzt Minutes-Modell" />
+              </label>
+            </div>
+
+            <div class="settings-grid settings-grid-wide hidden" id="azureLlmFields">
+              <label class="settings-field settings-field-full" for="llmAzureEndpointInput">
+                Azure OpenAI Endpoint
+                <input id="llmAzureEndpointInput" name="llm_azure_endpoint" type="url" placeholder="https://&lt;resource&gt;.openai.azure.com" />
+              </label>
+              <label class="settings-field" for="llmAzureApiVersionInput">
+                Azure API-Version
+                <input id="llmAzureApiVersionInput" name="llm_azure_api_version" type="text" placeholder="2025-01-01-preview" />
+              </label>
+              <label class="settings-field settings-field-full" for="llmAzureApiKeyInput">
+                Azure Bearer-Token oder API Key
+                <input id="llmAzureApiKeyInput" name="llm_azure_api_key" type="password" placeholder="Bearer &lt;token&gt; oder Azure API Key" autocomplete="off" />
+              </label>
+            </div>
+
+            <div class="settings-grid settings-grid-wide" id="httpLlmFields">
+              <label class="settings-field" for="llmBaseUrlInput">
+                API Base URL Minutes
+                <input id="llmBaseUrlInput" name="llm_base_url" type="url" placeholder="https://api.openai.com" />
+              </label>
+              <label class="settings-field" for="summaryLlmBaseUrlInput">
+                API Base URL Summary
+                <input id="summaryLlmBaseUrlInput" name="summary_llm_base_url" type="url" placeholder="Leer = nutzt Minutes-API" />
+              </label>
+              <label class="settings-field" for="llmCompletionsPathInput">
+                Chat-Endpunkt Minutes
+                <input id="llmCompletionsPathInput" name="llm_completions_path" type="text" placeholder="/v1/chat/completions" />
+              </label>
+              <label class="settings-field" for="summaryLlmCompletionsPathInput">
+                Chat-Endpunkt Summary
+                <input id="summaryLlmCompletionsPathInput" name="summary_llm_completions_path" type="text" placeholder="Leer = nutzt Minutes-Endpunkt" />
+              </label>
+              <label class="settings-field" for="llmApiKeyInput">
+                API Key Minutes
+                <input id="llmApiKeyInput" name="llm_api_key" type="password" placeholder="Optional" autocomplete="off" />
+              </label>
+              <label class="settings-field" for="summaryLlmApiKeyInput">
+                API Key Summary
+                <input id="summaryLlmApiKeyInput" name="summary_llm_api_key" type="password" placeholder="Leer = nutzt Minutes-Key" autocomplete="off" />
+              </label>
+            </div>
+
+          </section>
+
+          <div class="settings-actions">
+            <button id="reloadSettingsBtn" class="ghost" type="button">Neu laden</button>
+            <button id="saveSettingsBtn" class="primary" type="submit">Einstellungen speichern</button>
+          </div>
+        </form>
+      </section>
+    </main>
+
+    <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+
+    <script type="module" src="settings.js"></script>
+  </body>
+</html>
