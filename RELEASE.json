@@ -1,24 +1,20 @@
 {
-  "version": "1.0.0",
+  "version": "1.0.1",
   "date": "2026-05-26",
-  "title": "Aurora Minutes 1.0",
-  "subtitle": "Erste produktive Version mit Auto-Update",
+  "title": "Persistente Daten beim Auto-Update",
+  "subtitle": "User-Accounts und Jobs überleben jedes Update",
   "highlights": [
     {
-      "icon": "sparkles",
-      "text": "Erste produktive Version von Aurora Minutes ist live."
+      "icon": "shield",
+      "text": "Benutzerkonten und Einstellungen bleiben bei Updates erhalten (persistent volume)."
     },
     {
-      "icon": "rocket",
-      "text": "Automatische Updates: neue Versionen werden auf allen Deployments selbstständig eingespielt."
+      "icon": "zap",
+      "text": "Laufende Transkriptions-Jobs sind nach Update weiterhin sichtbar."
     },
     {
-      "icon": "lock",
-      "text": "Reverse-Proxy mit TLS schützt die gesamte Kommunikation."
-    },
-    {
-      "icon": "party",
-      "text": "Release-Popup zeigt dir nach jedem Update, was sich geändert hat."
+      "icon": "gear",
+      "text": "Neuer ENV-Wert AURORA_RUNTIME_DIR steuert das Datenverzeichnis."
     }
   ]
 }

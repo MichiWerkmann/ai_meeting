@@ -12,6 +12,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+from ..defaults import runtime_data_dir
 from ..schemas import (
     AsyncTranscriptionJobResponse,
     ProcessingMetadata,
@@ -52,7 +53,7 @@ class AsyncTranscriptionJobService:
         max_concurrent_jobs: int | None = None,
     ) -> None:
         self._transcription_service = transcription_service
-        self._base_dir = base_dir or Path(__file__).resolve().parents[2] / "runtime_jobs"
+        self._base_dir = base_dir or runtime_data_dir() / "runtime_jobs"
         self._ttl_seconds = ttl_seconds
         self._jobs: dict[str, AsyncTranscriptionJob] = {}
         self._retired_job_dirs: set[Path] = set()

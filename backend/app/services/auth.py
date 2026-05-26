@@ -12,6 +12,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+from ..defaults import runtime_data_dir
+
 _MIN_PASSWORD_LENGTH = 8
 _EMAIL_PATTERN = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
 
@@ -37,7 +39,7 @@ class _SessionRecord:
 
 class AuthService:
     def __init__(self, file_path: Path | None = None, session_ttl_seconds: int = 30 * 24 * 60 * 60) -> None:
-        self._file_path = file_path or Path(__file__).resolve().parents[2] / "runtime_users.json"
+        self._file_path = file_path or runtime_data_dir() / "runtime_users.json"
         self._session_ttl_seconds = max(60, int(session_ttl_seconds))
         self._lock = threading.Lock()
         self._users_by_id: dict[str, _UserRecord] = {}

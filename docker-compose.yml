@@ -27,7 +27,9 @@ services:
       - "8000"
     volumes:
       - ./backend/app:/app/app
+      - aurora-runtime:/app/runtime
     environment:
+      AURORA_RUNTIME_DIR: /app/runtime
       TRANSCRIPTION_PROVIDER: ${TRANSCRIPTION_PROVIDER:-azure_speech}
       AZURE_SPEECH_KEY: ${AZURE_SPEECH_KEY:-}
       AZURE_SPEECH_REGION: ${AZURE_SPEECH_REGION:-germanywestcentral}
@@ -82,3 +84,7 @@ services:
       backend:
         condition: service_healthy
     restart: unless-stopped
+
+volumes:
+  aurora-runtime:
+

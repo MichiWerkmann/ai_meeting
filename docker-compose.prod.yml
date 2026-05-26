@@ -30,8 +30,9 @@ services:
     expose:
       - "8000"
     volumes:
-      - aurora-backend-data:/app/data
+      - aurora-runtime:/app/runtime
     environment:
+      AURORA_RUNTIME_DIR: /app/runtime
       TRANSCRIPTION_PROVIDER: ${TRANSCRIPTION_PROVIDER:-azure_speech}
       AZURE_SPEECH_KEY: ${AZURE_SPEECH_KEY:-}
       AZURE_SPEECH_REGION: ${AZURE_SPEECH_REGION:-germanywestcentral}
@@ -107,4 +108,4 @@ services:
       - "com.centurylinklabs.watchtower.enable=false"
 
 volumes:
-  aurora-backend-data:
+  aurora-runtime:

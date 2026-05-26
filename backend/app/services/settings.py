@@ -4,6 +4,7 @@ import json
 import os
 from pathlib import Path
 
+from ..defaults import runtime_data_dir
 from ..schemas import ModelSettings, ModelSettingsUpdate
 
 
@@ -67,7 +68,7 @@ def _env_defaults() -> dict:
 
 class RuntimeSettingsStore:
     def __init__(self, file_path: Path | None = None) -> None:
-        self.file_path = file_path or Path(__file__).resolve().parents[2] / "runtime_settings.json"
+        self.file_path = file_path or runtime_data_dir() / "runtime_settings.json"
 
     def load(self) -> ModelSettings:
         defaults = _env_defaults()

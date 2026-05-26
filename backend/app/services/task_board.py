@@ -8,6 +8,7 @@ import uuid
 from collections import defaultdict
 from pathlib import Path
 
+from ..defaults import runtime_data_dir
 from ..schemas import (
     ActionItemNotificationStatus,
     MeetingMinutes,
@@ -49,7 +50,7 @@ _STOPWORDS = {
 
 class TaskBoardService:
     def __init__(self, file_path: Path | None = None) -> None:
-        self._file_path = file_path or Path(__file__).resolve().parents[2] / "runtime_task_board.json"
+        self._file_path = file_path or runtime_data_dir() / "runtime_task_board.json"
         self._lock = threading.Lock()
         self._entries: list[TaskBoardEntry] = []
         self._load()
